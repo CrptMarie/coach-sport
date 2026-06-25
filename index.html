@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#c084fc">
+<link rel="manifest" href="manifest.json">
 <title>Coach Sport</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -196,6 +198,38 @@ button{cursor:pointer;font-family:inherit}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .gen-error{background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:14px;padding:14px 16px;font-size:13px;color:#f87171;text-align:center;max-width:300px;line-height:1.5}
 .gen-retry{margin-top:12px;padding:12px 24px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#f1f5f9;font-size:14px;font-weight:600}
+/* ── FIX 10 : CLASSES EXTRAITES DES STYLES INLINE ── */
+.screen-header{padding:52px 20px 12px;flex-shrink:0}
+.screen-title{font-size:26px;font-weight:800}
+.screen-title-sm{font-size:24px;font-weight:800}
+.screen-sub{font-size:13px;color:#94a3b8;margin-top:4px}
+.custom-note{width:100%;padding:13px 14px;background:#22222e;border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#f1f5f9;font-size:14px;font-family:inherit;resize:none;min-height:70px;line-height:1.5}
+.screen-bottom-bar{padding:12px 20px 36px;flex-shrink:0;background:linear-gradient(0deg,#0f0f13 70%,transparent)}
+.co-action-row{padding:0 20px 8px;flex-shrink:0;display:flex;gap:8px}
+.btn-regen{flex:1;padding:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#f1f5f9;font-size:13px;font-weight:700}
+.co-start-wrap{padding:0 20px 8px;flex-shrink:0}
+.rating-emoji{font-size:56px;text-align:center}
+.label-optional{font-weight:400;text-transform:none;letter-spacing:0}
+.chip-hint{font-size:11px;color:#94a3b8;margin-top:8px}
+.equip-hint{font-size:11px;color:#94a3b8;margin-bottom:10px}
+.tip-emoji{flex-shrink:0}
+.btn-add-time{font-size:13px;font-weight:700}
+.wo-btn-row{display:flex;gap:8px}
+.wo-spacer{height:120px}
+/* ── FIX 13 : SAUVEGARDE SÉANCES CUSTOM ── */
+.btn-save-custom{padding:11px 14px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:12px;color:#4ade80;font-size:13px;font-weight:700}
+.save-name-input{width:100%;padding:12px 14px;background:#22222e;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#f1f5f9;font-size:15px;font-family:inherit;outline:none;text-align:left}
+.save-name-input:focus{border-color:#c084fc}
+.saved-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin:16px 0 6px;width:100%;padding-left:2px}
+.saved-delete-btn{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2);color:#f87171;font-size:14px;z-index:2;display:flex;align-items:center;justify-content:center}
+/* ── EXIT MODAL ── */
+.exit-modal{position:fixed;inset:0;z-index:300;background:rgba(10,10,15,.92);display:none;align-items:center;justify-content:center;padding:24px}
+.exit-modal.active{display:flex}
+.exit-modal-inner{background:#1a1a24;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:28px 24px;width:100%;max-width:320px;display:flex;flex-direction:column;gap:12px;text-align:center}
+.exit-modal-title{font-size:18px;font-weight:800;color:#f1f5f9}
+.exit-modal-sub{font-size:13px;color:#94a3b8;line-height:1.5}
+.exit-modal-quit{padding:15px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);border-radius:12px;color:#f87171;font-size:15px;font-weight:700}
+.exit-modal-stay{padding:15px;background:linear-gradient(135deg,#c084fc,#818cf8);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:800}
 </style>
 
 </head>
@@ -207,20 +241,20 @@ button{cursor:pointer;font-family:inherit}
   <div class="home-h1">Mes<br>Séances</div>
   <div class="home-sub">1h15 – 1h30 · Niveau intermédiaire</div>
   <div class="seance-grid" id="seanceGrid"></div>
-  <button class="custom-btn" onclick="showCustomConfig()">✨ Générer une séance sur mesure</button>
-  <button class="history-link" onclick="showHistory()">📋 Historique des séances</button>
+  <button class="custom-btn" id="customConfigBtn">✨ Générer une séance sur mesure</button>
+  <button class="history-link" id="historyLinkBtn">📋 Historique des séances</button>
 </div>
 
 <!-- OVERVIEW -->
 <div id="overview" class="screen">
   <div class="ov-hero">
-    <button class="back-btn" onclick="showHome()">← Accueil</button>
+    <button class="back-btn" id="ovBackBtn">← Accueil</button>
     <h1 id="ovTitle"></h1>
     <div class="ov-subtitle" id="ovSub"></div>
     <div class="ov-stats" id="ovStats"></div>
   </div>
   <div class="start-wrap">
-    <button class="start-btn" onclick="startWorkout()">▶ Commencer la séance</button>
+    <button class="start-btn" id="startWorkoutBtn">▶ Commencer la séance</button>
   </div>
   <div class="blocs-list" id="ovBlocs"></div>
 </div>
@@ -228,7 +262,7 @@ button{cursor:pointer;font-family:inherit}
 <!-- WORKOUT -->
 <div id="workout" class="screen">
   <div class="wo-topbar">
-    <button class="wo-back" onclick="confirmExit()">✕</button>
+    <button class="wo-back" id="woBackBtn">✕</button>
     <div class="wo-prog-wrap">
       <div class="wo-prog-label" id="progLabel"></div>
       <div class="prog-bar-bg"><div class="prog-bar-fill" id="progBar" style="width:0%"></div></div>
@@ -245,7 +279,7 @@ button{cursor:pointer;font-family:inherit}
       <div class="ex-desc-text" id="exDesc"></div>
     </div>
     <div class="ex-tip-card">
-      <span style="flex-shrink:0">💡</span>
+      <span class="tip-emoji">💡</span>
       <div class="ex-tip-text" id="exTip"></div>
     </div>
     <!-- TIMER -->
@@ -263,9 +297,9 @@ button{cursor:pointer;font-family:inherit}
       </div>
       <div class="timer-done" id="timerDone">✓ Terminé !</div>
       <div class="timer-controls">
-        <button class="btn-round" onclick="resetTimer()">↺</button>
-        <button class="btn-round btn-main-timer" id="playPauseBtn" onclick="toggleTimer()">▶</button>
-        <button class="btn-round" style="font-size:13px;font-weight:700" onclick="addTime(10)">+10</button>
+        <button class="btn-round" id="resetTimerBtn">↺</button>
+        <button class="btn-round btn-main-timer" id="playPauseBtn">▶</button>
+        <button class="btn-round btn-add-time" id="addTimeBtn">+10</button>
       </div>
     </div>
     <!-- REPS -->
@@ -273,15 +307,15 @@ button{cursor:pointer;font-family:inherit}
       <div class="reps-big" id="repsBig"></div>
       <div class="reps-unit" id="repsUnit"></div>
     </div>
-    <div style="height:120px"></div>
+    <div class="wo-spacer"></div>
   </div>
   <div class="wo-bottom">
     <div class="next-preview" id="nextPreview"></div>
-    <div style="display:flex;gap:8px">
-      <button class="btn-back-ex" id="btnPrev" onclick="prevStep()">←</button>
-      <button class="btn-next" id="btnNext" onclick="nextStep()">Exercice suivant →</button>
+    <div class="wo-btn-row">
+      <button class="btn-back-ex" id="btnPrev">←</button>
+      <button class="btn-next" id="btnNext">Exercice suivant →</button>
     </div>
-    <button class="btn-skip" onclick="nextStep()">Passer</button>
+    <button class="btn-skip" id="btnSkip">Passer sans repos →</button>
   </div>
 </div>
 
@@ -290,9 +324,20 @@ button{cursor:pointer;font-family:inherit}
   <div class="rest-emoji">😮‍💨</div>
   <div class="rest-title">Repos</div>
   <div class="rest-sub" id="restSub"></div>
-  <div class="rest-timer" id="restTimer">60</div>
-  <button class="rest-skip" onclick="skipRest()">Continuer →</button>
-  <button class="rest-back" onclick="prevFromRest()">← Revenir à l'exercice précédent</button>
+  <div class="timer-ring-wrap">
+    <svg width="148" height="148" viewBox="0 0 148 148">
+      <circle fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8" cx="74" cy="74" r="60"/>
+      <circle fill="none" stroke="#4ade80" stroke-width="8" stroke-linecap="round" cx="74" cy="74" r="60" id="restRing"
+        stroke-dasharray="376.99" stroke-dashoffset="0" style="transition:stroke-dashoffset 1s linear"/>
+    </svg>
+    <div class="timer-center">
+      <div class="timer-display" style="background:linear-gradient(135deg,#4ade80,#22d3ee)" id="restTimer">60</div>
+      <div class="timer-unit">sec</div>
+    </div>
+  </div>
+  <button class="btn-round btn-add-time" id="restAddTimeBtn">+10s</button>
+  <button class="rest-skip" id="restSkipBtn">Continuer →</button>
+  <button class="rest-back" id="restBackBtn">← Revenir à l'exercice précédent</button>
 </div>
 
 <!-- DONE -->
@@ -301,130 +346,130 @@ button{cursor:pointer;font-family:inherit}
   <div class="done-title">Séance terminée !</div>
   <div class="done-sub" id="doneSub"></div>
   <div class="done-stats" id="doneStats"></div>
-  <button class="btn-home" onclick="showRating()">⭐ Évaluer la séance</button>
-  <button class="rest-back" onclick="showHome()" style="margin-top:4px">← Retour à l'accueil</button>
-  <button class="rest-back" onclick="backFromDone()">↩ Revenir au dernier exercice</button>
+  <button class="btn-home" id="doneRateBtn">⭐ Évaluer la séance</button>
+  <button class="rest-back" id="doneHomeBtn">← Retour à l'accueil</button>
+  <button class="rest-back" id="doneBackBtn">↩ Revenir au dernier exercice</button>
 </div>
 
 <!-- RATING -->
 <div id="rating" class="screen">
   <div class="rating-scroll">
-    <div style="font-size:56px;text-align:center">⭐</div>
+    <div class="rating-emoji">⭐</div>
     <div class="rating-title">Comment s'est passée<br>la séance ?</div>
     <div class="rating-sub" id="ratingSub"></div>
 
-    <div class="rating-section" style="width:100%">
+    <div class="rating-section">
       <div class="rating-section-title">Note globale</div>
       <div class="stars-row" id="starsRow">
-        <button class="star-btn" onclick="setStar(1)">⭐</button>
-        <button class="star-btn" onclick="setStar(2)">⭐</button>
-        <button class="star-btn" onclick="setStar(3)">⭐</button>
-        <button class="star-btn" onclick="setStar(4)">⭐</button>
-        <button class="star-btn" onclick="setStar(5)">⭐</button>
+        <button class="star-btn" data-star="1">⭐</button>
+        <button class="star-btn" data-star="2">⭐</button>
+        <button class="star-btn" data-star="3">⭐</button>
+        <button class="star-btn" data-star="4">⭐</button>
+        <button class="star-btn" data-star="5">⭐</button>
       </div>
     </div>
 
-    <div class="rating-section" style="width:100%">
-      <div class="rating-section-title">Ce qui n'allait pas <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></div>
+    <div class="rating-section">
+      <div class="rating-section-title">Ce qui n'allait pas <span class="label-optional">(optionnel)</span></div>
       <div class="feedback-grid">
-        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-longue')">⏱ Trop longue</button>
-        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-courte')">⏱ Trop courte</button>
-        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-difficile')">💪 Exercices trop difficiles</button>
-        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-facile')">😴 Exercices trop faciles</button>
-        <button class="feedback-chip" onclick="toggleFeedback(this,'manque-variete')">🔄 Manque de variété</button>
-        <button class="feedback-chip" onclick="toggleFeedback(this,'parfaite')">✅ Parfaite !</button>
+        <button class="feedback-chip" data-value="trop-longue">⏱ Trop longue</button>
+        <button class="feedback-chip" data-value="trop-courte">⏱ Trop courte</button>
+        <button class="feedback-chip" data-value="trop-difficile">💪 Exercices trop difficiles</button>
+        <button class="feedback-chip" data-value="trop-facile">😴 Exercices trop faciles</button>
+        <button class="feedback-chip" data-value="manque-variete">🔄 Manque de variété</button>
+        <button class="feedback-chip" data-value="parfaite">✅ Parfaite !</button>
       </div>
     </div>
 
-    <div class="rating-section" style="width:100%">
-      <div class="rating-section-title">Note libre <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></div>
+    <div class="rating-section">
+      <div class="rating-section-title">Note libre <span class="label-optional">(optionnel)</span></div>
       <textarea class="rating-note" id="ratingNote" placeholder="Ex : les burpees étaient trop intenses, j'ai adoré le Blazepod…"></textarea>
     </div>
 
     <div class="rating-actions">
-      <button class="btn-save-rating" onclick="saveRating()">💾 Enregistrer</button>
-      <button class="btn-skip-rating" onclick="showHome()">Passer sans noter</button>
+      <button class="btn-save-rating" id="saveRatingBtn">💾 Enregistrer</button>
+      <button class="btn-skip-rating" id="skipRatingBtn">Passer sans noter</button>
     </div>
   </div>
 </div>
 
 <!-- HISTORY -->
 <div id="history" class="screen">
-  <div style="padding:52px 20px 12px;flex-shrink:0">
-    <button onclick="showHome()" style="font-size:13px;color:#c084fc;background:none;border:none;padding:0;margin-bottom:12px;display:flex;align-items:center;gap:6px">← Accueil</button>
-    <h1 style="font-size:26px;font-weight:800">Historique</h1>
-    <div style="font-size:13px;color:#94a3b8;margin-top:4px" id="histSubtitle"></div>
+  <div class="screen-header">
+    <button class="back-btn" id="histBackBtn">← Accueil</button>
+    <h1 class="screen-title">Historique</h1>
+    <div class="screen-sub" id="histSubtitle"></div>
   </div>
-  <button class="hist-clear" id="histClearBtn" onclick="clearHistory()">🗑 Effacer l'historique</button>
+  <button class="hist-clear" id="histClearBtn">🗑 Effacer l'historique</button>
   <div class="hist-list" id="histList"></div>
 </div>
 
 <!-- CUSTOM CONFIG -->
 <div id="customConfig" class="screen">
-  <div style="padding:52px 20px 12px;flex-shrink:0">
-    <button class="back-btn" onclick="showHome()" style="font-size:13px;color:#c084fc;background:none;border:none;padding:0;margin-bottom:12px;display:flex;align-items:center;gap:6px">← Accueil</button>
-    <h1 style="font-size:26px;font-weight:800">Séance sur mesure</h1>
-    <div style="font-size:13px;color:#94a3b8;margin-top:4px">Configure ta séance et génère ton programme</div>
+  <div class="screen-header">
+    <button class="back-btn" id="customConfigBackBtn">← Accueil</button>
+    <h1 class="screen-title">Séance sur mesure</h1>
+    <div class="screen-sub">Configure ta séance et génère ton programme</div>
   </div>
   <div class="custom-scroll">
 
     <div class="custom-section">
       <div class="custom-section-title">⏱ Durée</div>
       <div class="chip-grid" id="durationChips">
-        <button class="chip" onclick="selectDuration(this,'45 min')">45 min</button>
-        <button class="chip selected" onclick="selectDuration(this,'1 heure')">1 heure</button>
-        <button class="chip" onclick="selectDuration(this,'1h15-1h30')">1h15 – 1h30</button>
+        <button class="chip" data-value="45 min">45 min</button>
+        <button class="chip selected" data-value="1 heure">1 heure</button>
+        <button class="chip" data-value="1h15-1h30">1h15 – 1h30</button>
       </div>
     </div>
 
     <div class="custom-section">
       <div class="custom-section-title">🎯 Zones à travailler</div>
       <div class="chip-grid" id="zoneChips">
-        <button class="chip" onclick="toggleZone(this,'bas')">🍑 Bas du corps</button>
-        <button class="chip" onclick="toggleZone(this,'haut')">💪 Haut du corps</button>
-        <button class="chip" onclick="toggleZone(this,'cardio')">🔥 Cardio</button>
-        <button class="chip" onclick="toggleZone(this,'core')">⚡ Gainage & core</button>
-        <button class="chip" onclick="toggleZone(this,'full')">🏆 Full body</button>
+        <button class="chip" data-value="bas">🍑 Bas du corps</button>
+        <button class="chip" data-value="haut">💪 Haut du corps</button>
+        <button class="chip" data-value="cardio">🔥 Cardio</button>
+        <button class="chip" data-value="core">⚡ Gainage & core</button>
+        <button class="chip" data-value="full">🏆 Full body</button>
       </div>
-      <div style="font-size:11px;color:#94a3b8;margin-top:8px">Sélectionne une ou plusieurs zones</div>
+      <div class="chip-hint">Sélectionne une ou plusieurs zones</div>
     </div>
 
     <div class="custom-section">
       <div class="custom-section-title">🎒 Matériel disponible</div>
-      <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">Tout coché par défaut — décoche ce qui n'est pas disponible</div>
+      <div class="equip-hint">Tout coché par défaut — décoche ce qui n'est pas disponible</div>
       <div class="chip-grid" id="equipChips">
-        <button class="chip selected" onclick="toggleEquip(this,'tapis')">🏃 Tapis de course</button>
-        <button class="chip selected" onclick="toggleEquip(this,'halteres')">🏋️ Haltères</button>
-        <button class="chip selected" onclick="toggleEquip(this,'kettlebell')">⚫ Kettlebell</button>
-        <button class="chip selected" onclick="toggleEquip(this,'barre')">📊 Barre de squat</button>
-        <button class="chip selected" onclick="toggleEquip(this,'step')">📦 Step</button>
-        <button class="chip selected" onclick="toggleEquip(this,'trx')">🔗 TRX</button>
-        <button class="chip selected" onclick="toggleEquip(this,'swissball')">🔵 Swiss ball</button>
-        <button class="chip selected" onclick="toggleEquip(this,'trampoline')">⬜ Trampoline</button>
-        <button class="chip selected" onclick="toggleEquip(this,'blazepod')">💡 Blazepod</button>
-        <button class="chip selected" onclick="toggleEquip(this,'miniband')">🟣 Mini-bands</button>
-        <button class="chip selected" onclick="toggleEquip(this,'superband')">🔵 Super bands</button>
-        <button class="chip selected" onclick="toggleEquip(this,'espalier')">🪜 Espalier</button>
+        <button class="chip selected" data-value="tapis">🏃 Tapis de course</button>
+        <button class="chip selected" data-value="halteres">🏋️ Haltères</button>
+        <button class="chip selected" data-value="kettlebell">⚫ Kettlebell</button>
+        <button class="chip selected" data-value="barre">📊 Barre de squat</button>
+        <button class="chip selected" data-value="step">📦 Step</button>
+        <button class="chip selected" data-value="trx">🔗 TRX</button>
+        <button class="chip selected" data-value="swissball">🔵 Swiss ball</button>
+        <button class="chip selected" data-value="trampoline">⬜ Trampoline</button>
+        <button class="chip selected" data-value="blazepod">💡 Blazepod</button>
+        <button class="chip selected" data-value="miniband">🟣 Mini-bands</button>
+        <button class="chip selected" data-value="superband">🔵 Super bands</button>
+        <button class="chip selected" data-value="espalier">🪜 Espalier</button>
       </div>
     </div>
 
     <div class="custom-section">
       <div class="custom-section-title">💥 Intensité souhaitée</div>
       <div class="intensity-row" id="intensityChips">
-        <button class="intensity-chip" onclick="selectIntensity(this,'Légère')">😴 Légère</button>
-        <button class="intensity-chip selected" onclick="selectIntensity(this,'Modérée')">😊 Modérée</button>
-        <button class="intensity-chip" onclick="selectIntensity(this,'Intense')">🔥 Intense</button>
+        <button class="intensity-chip" data-value="Légère">😴 Légère</button>
+        <button class="intensity-chip selected" data-value="Modérée">😊 Modérée</button>
+        <button class="intensity-chip" data-value="Intense">🔥 Intense</button>
       </div>
     </div>
 
     <div class="custom-section">
-      <div class="custom-section-title">💭 Note du jour <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></div>
-      <textarea id="customNote" placeholder="Ex : pas de sauts aujourd'hui, j'ai mal aux genoux…" style="width:100%;padding:13px 14px;background:#22222e;border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#f1f5f9;font-size:14px;font-family:inherit;resize:none;min-height:70px;line-height:1.5"></textarea>
+      <div class="custom-section-title">💭 Note du jour <span class="label-optional">(optionnel)</span></div>
+      <textarea id="customNote" class="custom-note" placeholder="Ex : pas de sauts aujourd'hui, j'ai mal aux genoux…"></textarea>
     </div>
 
   </div>
-  <div style="padding:12px 20px 36px;flex-shrink:0;background:linear-gradient(0deg,#0f0f13 70%,transparent)">
-    <button class="generate-btn" onclick="previewCustom()">👁 Voir la séance générée</button>
+  <div class="screen-bottom-bar">
+    <button class="generate-btn" id="generateBtn">👁 Voir la séance générée</button>
   </div>
 </div>
 
@@ -437,27 +482,47 @@ button{cursor:pointer;font-family:inherit}
       <div class="tour-preview-info" id="tpInfo"></div>
     </div>
     <div class="tour-preview-list" id="tpList"></div>
-    <button class="tour-preview-btn" onclick="startTour()">▶ C'est parti !</button>
+    <button class="tour-preview-btn" id="tourPreviewBtn">▶ C'est parti !</button>
   </div>
 </div>
 
 <div id="customOverview" class="screen">
-  <div style="padding:52px 20px 12px;flex-shrink:0">
-    <button onclick="showCustomConfig()" style="font-size:13px;color:#c084fc;background:none;border:none;padding:0;margin-bottom:12px;display:flex;align-items:center;gap:6px">← Modifier</button>
-    <h1 style="font-size:24px;font-weight:800">Ta séance générée</h1>
-    <div style="font-size:13px;color:#94a3b8;margin-top:4px" id="coSubtitle"></div>
-    <div class="ov-stats" id="coStats" style="margin-top:10px"></div>
+  <div class="screen-header">
+    <button class="back-btn" id="coBackBtn">← Modifier</button>
+    <h1 class="screen-title-sm">Ta séance générée</h1>
+    <div class="screen-sub" id="coSubtitle"></div>
+    <div class="ov-stats" id="coStats"></div>
   </div>
-  <div style="padding:0 20px 8px;flex-shrink:0;display:flex;gap:8px">
-    <button onclick="regenCustom()" style="flex:1;padding:11px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#f1f5f9;font-size:13px;font-weight:700">🔀 Regénérer</button>
+  <div class="co-action-row">
+    <button class="btn-regen" id="regenBtn">🔀 Regénérer</button>
+    <button class="btn-save-custom" id="saveCustomBtn">💾 Sauvegarder</button>
   </div>
-  <div style="padding:0 20px 8px;flex-shrink:0">
-    <button class="start-btn" onclick="launchCustom()">▶ Commencer cette séance</button>
+  <div class="co-start-wrap">
+    <button class="start-btn" id="launchCustomBtn">▶ Commencer cette séance</button>
   </div>
   <div class="blocs-list" id="coBlocs" style="padding-bottom:60px"></div>
 </div>
 
+<!-- SAVE MODAL -->
+<div class="exit-modal" id="saveModal">
+  <div class="exit-modal-inner">
+    <div class="exit-modal-title">💾 Sauvegarder la séance</div>
+    <div class="exit-modal-sub">Elle apparaîtra sur l'accueil à côté des séances A–E.</div>
+    <input type="text" class="save-name-input" id="saveNameInput" placeholder="Ex : Jambes intensif…" maxlength="30">
+    <button class="exit-modal-stay" id="saveModalConfirmBtn">Sauvegarder</button>
+    <button class="exit-modal-quit" id="saveModalCancelBtn">Annuler</button>
+  </div>
+</div>
 
+<!-- EXIT MODAL -->
+<div class="exit-modal" id="exitModal">
+  <div class="exit-modal-inner">
+    <div class="exit-modal-title">Quitter la séance ?</div>
+    <div class="exit-modal-sub">Ta progression en cours ne sera pas sauvegardée.</div>
+    <button class="exit-modal-stay" id="exitModalStayBtn">Continuer la séance</button>
+    <button class="exit-modal-quit" id="exitModalQuitBtn">Quitter</button>
+  </div>
+</div>
 
 <script>
 // ══════════════════════════════════════════════
@@ -618,7 +683,7 @@ const SEANCES=[
 // ══════════════════════════════════════════════
 let curSeance=null,flatSteps=[],stepIdx=0,startTime=null,totalEx=0;
 let timerSecs=0,timerTotal=0,timerRunning=false,timerIv=null;
-let restSecs=0,restIv=null;
+let restSecs=0,restTotal=0,restIv=null;
 const CIRC=2*Math.PI*60;
 
 // ══════════════════════════════════════════════
@@ -647,6 +712,28 @@ function buildHome(){
     d.onclick=()=>showOverview(s);
     g.appendChild(d);
   });
+  const saved=loadSavedSeances();
+  if(saved.length){
+    const lbl=document.createElement('div');
+    lbl.className='saved-section-label';
+    lbl.textContent='📌 Séances sauvegardées';
+    g.appendChild(lbl);
+    saved.forEach(({id,seance:s})=>{
+      const d=document.createElement('div');
+      d.className='seance-card';
+      d.innerHTML=`<div class="seance-card-bg" style="background:linear-gradient(120deg,${s.colorBg||'rgba(192,132,252,.15)'},transparent 60%)"></div>
+        <div class="seance-letter" style="background:${s.colorBg||'rgba(192,132,252,.15)'};color:${s.color||'#c084fc'}">★</div>
+        <div class="seance-info"><h2>${esc(s.title)}</h2><div class="seance-meta">${esc(s.subtitle||'')}</div>
+        <div class="tags">${(s.tags||[]).slice(0,3).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div></div>
+        <button class="saved-delete-btn" title="Supprimer">×</button>`;
+      d.querySelector('.saved-delete-btn').addEventListener('click', e=>{
+        e.stopPropagation();
+        deleteSavedSeance(id);
+      });
+      d.onclick=()=>showOverview(s);
+      g.appendChild(d);
+    });
+  }
 }
 
 // ══════════════════════════════════════════════
@@ -658,7 +745,7 @@ function showOverview(s){
   document.getElementById('ovSub').textContent=s.subtitle;
   let exCount=0; s.blocs.forEach(b=>exCount+=b.exercises.length);
   document.getElementById('ovStats').innerHTML=
-    [`⏱ 1h15–1h30`,`📋 ${s.blocs.length} blocs`,`💪 ${exCount} exercices`]
+    [`⏱ ${estimateDuration(s)}`,`📋 ${s.blocs.length} blocs`,`💪 ${exCount} exercices`]
     .map(x=>`<div class="stat-pill">${x}</div>`).join('');
   const c=document.getElementById('ovBlocs'); c.innerHTML='';
   s.blocs.forEach(bloc=>{
@@ -801,7 +888,9 @@ function prevStep(){
   renderStep();
 }
 
-function confirmExit(){if(confirm('Quitter la séance en cours ?')){stopTimers();showHome();}}
+function confirmExit(){document.getElementById('exitModal').classList.add('active');}
+function closeExitModal(){document.getElementById('exitModal').classList.remove('active');}
+function doExit(){closeExitModal();stopTimers();showHome();}
 
 // ══════════════════════════════════════════════
 // TIMER
@@ -825,7 +914,9 @@ function toggleTimer(){
     timerRunning=true;document.getElementById('playPauseBtn').textContent='⏸';
     timerIv=setInterval(()=>{
       timerSecs--;updateTimerUI();
+      if(timerSecs>0&&timerSecs<=3) beep(880,0.08);
       if(timerSecs<=0){
+        beep(440,0.4,0.3);
         clearInterval(timerIv);timerRunning=false;
         document.getElementById('playPauseBtn').textContent='▶';
         document.getElementById('timerDone').style.display='block';
@@ -840,15 +931,28 @@ function addTime(n){timerSecs=Math.min(timerSecs+n,999);if(timerSecs>timerTotal)
 // ══════════════════════════════════════════════
 // REST
 // ══════════════════════════════════════════════
+function updateRestRing(){
+  const ring=document.getElementById('restRing');
+  if(!ring)return;
+  const progress=restTotal>0?restSecs/restTotal:0;
+  ring.style.strokeDashoffset=CIRC*(1-progress);
+}
 function showRest(secs,label){
-  restSecs=secs;
+  restSecs=secs;restTotal=secs;
   document.getElementById('restTimer').textContent=restSecs;
   document.getElementById('restSub').textContent=label||'Récupération';
+  updateRestRing();
   document.getElementById('restOverlay').classList.add('active');
   restIv=setInterval(()=>{
     restSecs--;
     document.getElementById('restTimer').textContent=restSecs;
-    if(restSecs<=0)skipRest();
+    updateRestRing();
+    if(restSecs>0&&restSecs<=3) beep(660,0.08);
+    if(restSecs<=0){
+      beep(440,0.4,0.3);
+      if(navigator.vibrate)navigator.vibrate([200,100,200]);
+      skipRest();
+    }
   },1000);
 }
 function skipRest(){clearInterval(restIv);document.getElementById('restOverlay').classList.remove('active');stepIdx++;renderStep();}
@@ -1333,14 +1437,14 @@ function showHistory(){
     const tags = (r.zones||[]).filter(t=>!t.includes('min')&&!t.includes('h15')).slice(0,3);
     return `<div class="hist-card">
       <div class="hist-card-top">
-        <div class="hist-card-title">${r.title}</div>
+        <div class="hist-card-title">${esc(r.title)}</div>
         <div class="hist-card-date">${dateStr}</div>
       </div>
       <div class="hist-stars">${stars}</div>
       ${tags.length?`<div class="hist-card-tags">${tags.map(t=>`<span class="hist-tag">${t}</span>`).join('')}</div>`:''}
       <div style="font-size:11px;color:#94a3b8;margin-bottom:${fb||r.note?'4':'0'}px">⏱ ${r.duration} min · ${r.exercises} exercices</div>
       ${fb?`<div class="hist-feedback">${fb}</div>`:''}
-      ${r.note?`<div class="hist-note">"${r.note}"</div>`:''}
+      ${r.note?`<div class="hist-note">"${esc(r.note)}"</div>`:''}
     </div>`;
   }).join('');
 
@@ -1380,5 +1484,203 @@ function getAdjustedPick(arr, n, exclude){
   return shuffled.slice(0, Math.min(n, shuffled.length));
 }
 
-buildHome();
+// ── FIX #2 : Passer sans repos (saute le step isRest suivant) ─────
+function skipToNextEx(){
+  stopTimers();
+  stepIdx++;
+  while(stepIdx<flatSteps.length&&flatSteps[stepIdx].isRest) stepIdx++;
+  renderStep();
+}
+
+// ── FIX #3 : Durée estimée à partir des steps ─────────────────────
+function estimateDuration(s){
+  const steps=flatten(s);
+  let secs=0;
+  steps.forEach(step=>{
+    if(step.isRest) secs+=step.restSecs;
+    else if(!step.isTourPreview&&step.exercise)
+      secs+=step.exercise.isTimer?step.exercise.seconds:45;
+  });
+  return '~'+Math.round(secs/60)+' min';
+}
+
+// ── FIX #4 : +10s sur le timer de repos ───────────────────────────
+function addRestTime(n){
+  restSecs=Math.min(restSecs+n,999);
+  if(restSecs>restTotal)restTotal=restSecs;
+  document.getElementById('restTimer').textContent=restSecs;
+  updateRestRing();
+}
+
+// ── FIX #5 : Service Worker (offline) ────────────────────────────
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// ── FIX #16 : Audio cues (Web Audio API) ─────────────────────────
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  }
+  if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
+}
+function beep(freq=880, dur=0.1, vol=0.25){
+  unlockAudio();
+  if(!audioCtx) return;
+  try{
+    const osc=audioCtx.createOscillator();
+    const gain=audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.frequency.value=freq;
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime+dur);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+
+// ── FIX #15 : Swipe gauche/droite sur l'écran d'exercice ─────────
+let swipeX=0, swipeY=0;
+function initSwipe(){
+  const el=document.getElementById('woMain');
+  el.addEventListener('touchstart', e=>{
+    swipeX=e.changedTouches[0].clientX;
+    swipeY=e.changedTouches[0].clientY;
+  },{passive:true});
+  el.addEventListener('touchend', e=>{
+    const dx=e.changedTouches[0].clientX-swipeX;
+    const dy=e.changedTouches[0].clientY-swipeY;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){
+      if(dx<0) nextStep(); else prevStep();
+    }
+  },{passive:true});
+}
+
+// ── FIX #13 : Sauvegarde des séances custom ───────────────────────
+const SAVED_KEY='coach_sport_saved';
+function loadSavedSeances(){
+  try{ return JSON.parse(localStorage.getItem(SAVED_KEY)||'[]'); }catch(e){ return []; }
+}
+function writeSavedSeances(list){
+  try{ localStorage.setItem(SAVED_KEY, JSON.stringify(list)); }catch(e){}
+}
+function openSaveModal(){
+  document.getElementById('saveNameInput').value='';
+  document.getElementById('saveModal').classList.add('active');
+  setTimeout(()=>document.getElementById('saveNameInput').focus(),100);
+}
+function closeSaveModal(){
+  document.getElementById('saveModal').classList.remove('active');
+}
+function confirmSaveSeance(){
+  const name=document.getElementById('saveNameInput').value.trim();
+  if(!name) return;
+  const id=Date.now().toString();
+  const seanceToSave={...generatedSeance, id:'saved_'+id, title:name};
+  const saved=loadSavedSeances();
+  saved.push({id, seance:seanceToSave});
+  writeSavedSeances(saved);
+  closeSaveModal();
+  const btn=document.getElementById('saveCustomBtn');
+  btn.textContent='✓ Sauvegardée !';
+  setTimeout(()=>{ btn.textContent='💾 Sauvegarder'; }, 2000);
+  buildHome();
+}
+function deleteSavedSeance(id){
+  writeSavedSeances(loadSavedSeances().filter(s=>s.id!==id));
+  buildHome();
+}
+
+// ── FIX #11 : addEventListener centralisés ────────────────────────
+function initListeners(){
+  // Home
+  document.getElementById('customConfigBtn').addEventListener('click', showCustomConfig);
+  document.getElementById('historyLinkBtn').addEventListener('click', showHistory);
+  // Overview
+  document.getElementById('ovBackBtn').addEventListener('click', showHome);
+  document.getElementById('startWorkoutBtn').addEventListener('click', startWorkout);
+  // Workout
+  document.getElementById('woBackBtn').addEventListener('click', confirmExit);
+  document.getElementById('btnPrev').addEventListener('click', prevStep);
+  document.getElementById('btnNext').addEventListener('click', nextStep);
+  document.getElementById('btnSkip').addEventListener('click', skipToNextEx);
+  document.getElementById('resetTimerBtn').addEventListener('click', resetTimer);
+  document.getElementById('playPauseBtn').addEventListener('click', toggleTimer);
+  document.getElementById('addTimeBtn').addEventListener('click', ()=>addTime(10));
+  // Rest
+  document.getElementById('restAddTimeBtn').addEventListener('click', ()=>addRestTime(10));
+  document.getElementById('restSkipBtn').addEventListener('click', skipRest);
+  document.getElementById('restBackBtn').addEventListener('click', prevFromRest);
+  // Done
+  document.getElementById('doneRateBtn').addEventListener('click', showRating);
+  document.getElementById('doneHomeBtn').addEventListener('click', showHome);
+  document.getElementById('doneBackBtn').addEventListener('click', backFromDone);
+  // Rating — délégation sur starsRow
+  document.getElementById('starsRow').addEventListener('click', e=>{
+    const btn=e.target.closest('.star-btn');
+    if(btn) setStar(Number(btn.dataset.star));
+  });
+  // Rating — délégation sur feedback-grid
+  document.querySelector('.feedback-grid').addEventListener('click', e=>{
+    const chip=e.target.closest('.feedback-chip');
+    if(chip) toggleFeedback(chip, chip.dataset.value);
+  });
+  document.getElementById('saveRatingBtn').addEventListener('click', saveRating);
+  document.getElementById('skipRatingBtn').addEventListener('click', showHome);
+  // History
+  document.getElementById('histBackBtn').addEventListener('click', showHome);
+  document.getElementById('histClearBtn').addEventListener('click', clearHistory);
+  // Custom config
+  document.getElementById('customConfigBackBtn').addEventListener('click', showHome);
+  document.getElementById('durationChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.chip');
+    if(chip) selectDuration(chip, chip.dataset.value);
+  });
+  document.getElementById('zoneChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.chip');
+    if(chip) toggleZone(chip, chip.dataset.value);
+  });
+  document.getElementById('equipChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.chip');
+    if(chip) toggleEquip(chip, chip.dataset.value);
+  });
+  document.getElementById('intensityChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.intensity-chip');
+    if(chip) selectIntensity(chip, chip.dataset.value);
+  });
+  document.getElementById('generateBtn').addEventListener('click', previewCustom);
+  // Tour preview
+  document.getElementById('tourPreviewBtn').addEventListener('click', startTour);
+  // Custom overview
+  document.getElementById('coBackBtn').addEventListener('click', showCustomConfig);
+  document.getElementById('regenBtn').addEventListener('click', regenCustom);
+  document.getElementById('launchCustomBtn').addEventListener('click', launchCustom);
+  // Exit modal
+  document.getElementById('exitModalStayBtn').addEventListener('click', closeExitModal);
+  document.getElementById('exitModalQuitBtn').addEventListener('click', doExit);
+  // Save modal
+  document.getElementById('saveCustomBtn').addEventListener('click', openSaveModal);
+  document.getElementById('saveModalConfirmBtn').addEventListener('click', confirmSaveSeance);
+  document.getElementById('saveModalCancelBtn').addEventListener('click', closeSaveModal);
+  document.getElementById('saveNameInput').addEventListener('keydown', e=>{
+    if(e.key==='Enter') confirmSaveSeance();
+  });
+  // Swipe + audio unlock
+  initSwipe();
+  document.addEventListener('touchstart', unlockAudio, {once:true});
+  document.addEventListener('click', unlockAudio, {once:true});
+}
+
+// ── FIX #1 : Échappement HTML pour éviter le XSS ─────────────────
+function esc(str){
+  return String(str||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  buildHome();
+  initListeners();
+});
 </script>
