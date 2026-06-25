@@ -216,12 +216,39 @@ button{cursor:pointer;font-family:inherit}
 .btn-add-time{font-size:13px;font-weight:700}
 .wo-btn-row{display:flex;gap:8px}
 .wo-spacer{height:120px}
+/* ── INSIGHTS HISTORIQUE ── */
+.insights-card{background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.2);border-radius:14px;padding:12px 14px;margin-bottom:14px}
+.insights-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#818cf8;margin-bottom:7px}
+.insight-item{font-size:12px;color:#c7d2fe;line-height:1.7;display:flex;gap:6px}
+.insight-item::before{content:'↳';color:#818cf8;flex-shrink:0}
 /* ── FIX 13 : SAUVEGARDE SÉANCES CUSTOM ── */
 .btn-save-custom{padding:11px 14px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:12px;color:#4ade80;font-size:13px;font-weight:700}
 .save-name-input{width:100%;padding:12px 14px;background:#22222e;border:1px solid rgba(255,255,255,.15);border-radius:12px;color:#f1f5f9;font-size:15px;font-family:inherit;outline:none;text-align:left}
 .save-name-input:focus{border-color:#c084fc}
 .saved-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin:16px 0 6px;width:100%;padding-left:2px}
 .saved-delete-btn{position:absolute;top:10px;right:10px;width:26px;height:26px;border-radius:50%;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2);color:#f87171;font-size:14px;z-index:2;display:flex;align-items:center;justify-content:center}
+/* ── MES EXERCICES ── */
+.my-ex-btn{font-size:12px;color:#94a3b8;background:none;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:7px 16px;display:flex;align-items:center;gap:6px;margin-top:6px}
+.add-ex-btn{margin:0 16px 12px;width:calc(100% - 32px);padding:14px;background:rgba(74,222,128,.1);border:1.5px solid rgba(74,222,128,.3);border-radius:14px;color:#4ade80;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.my-ex-list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:0 16px 80px;display:flex;flex-direction:column;gap:10px}
+.my-ex-card{background:#22222e;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
+.my-ex-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+.my-ex-name{font-size:14px;font-weight:700;color:#f1f5f9}
+.my-ex-meta{font-size:11px;color:#94a3b8;margin-top:3px}
+.my-ex-muscles{font-size:11px;color:#a78bfa;font-weight:600;margin-top:4px}
+.my-ex-actions{display:flex;gap:6px;flex-shrink:0}
+.btn-edit-ex{padding:6px 10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#94a3b8;font-size:13px}
+.btn-delete-ex{padding:6px 10px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;color:#f87171;font-size:15px;font-weight:700}
+.user-badge{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:rgba(74,222,128,.15);color:#4ade80;border-radius:6px;padding:2px 6px;margin-left:6px;vertical-align:middle}
+.my-ex-card-hidden{opacity:.4}
+.btn-hide-ex{padding:6px 10px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;color:#f87171;font-size:14px;font-weight:700}
+.btn-restore-ex{padding:5px 10px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:8px;color:#4ade80;font-size:12px;font-weight:600}
+.lib-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin:18px 0 10px;padding-left:2px}
+.lib-cat-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.lib-cat-chip{padding:8px 14px;background:#22222e;border:1.5px solid rgba(255,255,255,.1);border-radius:20px;color:#94a3b8;font-size:12px;font-weight:600}
+.lib-cat-chip.selected{background:rgba(192,132,252,.15);border-color:#c084fc;color:#c084fc}
+.ex-form-input{width:100%;padding:12px 14px;background:#22222e;border:1px solid rgba(255,255,255,.12);border-radius:12px;color:#f1f5f9;font-size:14px;font-family:inherit;outline:none}
+.ex-form-input:focus{border-color:#c084fc}
 /* ── EXIT MODAL ── */
 .exit-modal{position:fixed;inset:0;z-index:300;background:rgba(10,10,15,.92);display:none;align-items:center;justify-content:center;padding:24px}
 .exit-modal.active{display:flex}
@@ -243,6 +270,7 @@ button{cursor:pointer;font-family:inherit}
   <div class="seance-grid" id="seanceGrid"></div>
   <button class="custom-btn" id="customConfigBtn">✨ Générer une séance sur mesure</button>
   <button class="history-link" id="historyLinkBtn">📋 Historique des séances</button>
+  <button class="my-ex-btn" id="myExBtn">✏️ Mes exercices</button>
 </div>
 
 <!-- OVERVIEW -->
@@ -501,6 +529,97 @@ button{cursor:pointer;font-family:inherit}
     <button class="start-btn" id="launchCustomBtn">▶ Commencer cette séance</button>
   </div>
   <div class="blocs-list" id="coBlocs" style="padding-bottom:60px"></div>
+</div>
+
+<!-- MES EXERCICES -->
+<div id="myExercises" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" id="myExBackBtn">← Accueil</button>
+    <h1 class="screen-title">Mes exercices</h1>
+    <div class="screen-sub" id="myExSubtitle">Crée tes propres exercices</div>
+  </div>
+  <button class="add-ex-btn" id="addExBtn">+ Créer un exercice</button>
+  <div class="my-ex-list" id="myExList"></div>
+</div>
+
+<!-- EXERCISE EDITOR -->
+<div id="exerciseEditor" class="screen">
+  <div class="screen-header" style="flex-shrink:0">
+    <button class="back-btn" id="editorBackBtn">← Mes exercices</button>
+    <h1 class="screen-title" id="editorTitle">Nouvel exercice</h1>
+  </div>
+  <div class="custom-scroll">
+
+    <div class="custom-section">
+      <div class="custom-section-title">Nom de l'exercice *</div>
+      <input type="text" class="ex-form-input" id="exName" placeholder="Ex : Fente sautée…" maxlength="50">
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">🎯 Zone ciblée *</div>
+      <div class="chip-grid" id="exZoneChips">
+        <button class="chip" data-value="bas">🍑 Bas du corps</button>
+        <button class="chip" data-value="haut">💪 Haut du corps</button>
+        <button class="chip" data-value="cardio">🔥 Cardio</button>
+        <button class="chip" data-value="core">⚡ Core</button>
+      </div>
+      <div class="chip-hint">Plusieurs choix possibles</div>
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">Type</div>
+      <div class="intensity-row" id="exTypeChips">
+        <button class="intensity-chip selected" data-value="reps">↺ Répétitions</button>
+        <button class="intensity-chip" data-value="timer">⏱ Chrono</button>
+      </div>
+    </div>
+
+    <div class="custom-section" id="exRepsSection">
+      <div class="custom-section-title">Format</div>
+      <input type="text" class="ex-form-input" id="exReps" placeholder="Ex : 12 reps, 10/côté, 3×15…" maxlength="30">
+    </div>
+    <div class="custom-section" id="exTimerSection" style="display:none">
+      <div class="custom-section-title">Durée (secondes)</div>
+      <input type="number" class="ex-form-input" id="exSeconds" placeholder="Ex : 40" min="5" max="600">
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">🎒 Équipement <span class="label-optional">(laisse vide = sans matériel)</span></div>
+      <div class="chip-grid" id="exEquipChips">
+        <button class="chip" data-value="tapis">🏃 Tapis</button>
+        <button class="chip" data-value="halteres">🏋️ Haltères</button>
+        <button class="chip" data-value="kettlebell">⚫ Kettlebell</button>
+        <button class="chip" data-value="barre">📊 Barre</button>
+        <button class="chip" data-value="step">📦 Step</button>
+        <button class="chip" data-value="trx">🔗 TRX</button>
+        <button class="chip" data-value="swissball">🔵 Swiss ball</button>
+        <button class="chip" data-value="trampoline">⬜ Trampoline</button>
+        <button class="chip" data-value="blazepod">💡 Blazepod</button>
+        <button class="chip" data-value="miniband">🟣 Mini-bands</button>
+        <button class="chip" data-value="superband">🔵 Super bands</button>
+        <button class="chip" data-value="espalier">🪜 Espalier</button>
+      </div>
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">Muscles ciblés <span class="label-optional">(optionnel)</span></div>
+      <input type="text" class="ex-form-input" id="exMuscles" placeholder="Ex : Quadriceps · Grand fessier…" maxlength="100">
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">Comment faire <span class="label-optional">(optionnel)</span></div>
+      <textarea class="custom-note" id="exDesc" placeholder="Décris le mouvement étape par étape…"></textarea>
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">💡 Conseil <span class="label-optional">(optionnel)</span></div>
+      <input type="text" class="ex-form-input" id="exTip" placeholder="Ex : Dos plat, ne bloque pas les genoux…" maxlength="150">
+    </div>
+
+  </div>
+  <div class="screen-bottom-bar">
+    <button class="generate-btn" id="saveExBtn">💾 Enregistrer l'exercice</button>
+  </div>
 </div>
 
 <!-- SAVE MODAL -->
@@ -1066,6 +1185,9 @@ const LIBRARY = {
   // ─── ÉCHAUFFEMENT (tous) ───────────────────
   warmup: [
     {name:"Marche inclinée tapis",reps:"3 min",isTimer:true,seconds:180,muscles:"Fessiers · Mollets · Cardio",equip:["Tapis de course"],desc:"Démarrez à 5 km/h inclinaison 5%. Augmentez à 8-10% toutes les 60 secondes. Active progressivement le système cardiovasculaire et réchauffe hanches, genoux et chevilles.",tip:"Augmente l'inclinaison, pas la vitesse."},
+    {name:"Jumping jacks légers",reps:"2 min",isTimer:true,seconds:120,muscles:"Cardio · Épaules · Mollets",equip:["Sans matériel"],desc:"Sautillez sur place en ouvrant et fermant bras et jambes à intensité modérée. Rythme régulier, amplitude progressive. Idéal pour monter la température corporelle sans équipement.",tip:"Reste sur l'avant des pieds pour amortir. Bruits de pas doux = bonne absorption."},
+    {name:"Shadowboxing",reps:"2 min",isTimer:true,seconds:120,muscles:"Épaules · Cardio · Coordination",equip:["Sans matériel"],desc:"Pieds à la largeur des épaules en position légèrement fléchie. Enchaîne jabs, directs, crochets en gardant les épaules relâchées et les abdos légèrement contractés. Ajoute des déplacements latéraux sur les 30 dernières secondes.",tip:"Bras détendus, frappe avec intention. Excellent pour le cardio sans impact."},
+    {name:"Squats dynamiques à vide",reps:"15 reps",isTimer:false,seconds:0,muscles:"Quadriceps · Fessiers · Cardio",equip:["Sans matériel"],desc:"Pieds largeur épaules. Descends en squat contrôlé (2s), remontée rapide et explosive jusqu'aux pointes des pieds. Bras balancent en avant à la descente. Mouvement continu sans pause en haut.",tip:"Serve à la fois d'activation neuromusculaire et de montée en température."},
     {name:"Marche rapide tapis + bras actifs",reps:"3 min",isTimer:true,seconds:180,muscles:"Épaules · Cardio",equip:["Tapis de course"],desc:"Marche à 5-6 km/h, inclinaison 3-5%. Fais des rotations de bras vers l'avant puis l'arrière, des cercles d'épaules et des croisements de bras devant la poitrine pendant la marche.",tip:"Élève la température musculaire avant le travail des épaules."},
     {name:"Tapis accélération progressive",reps:"4 min",isTimer:true,seconds:240,muscles:"Cardiovasculaire global",equip:["Tapis de course"],desc:"Démarre à 5 km/h, augmente de 0.5 km/h toutes les 60s jusqu'à 7-8 km/h. Termine par 30s de sprint à 9 km/h.",tip:"Ne grille pas toute ton énergie — garde de la réserve pour la séance."},
     {name:"Cercles de hanches + Leg swings",reps:"10/côté",isTimer:false,seconds:0,muscles:"Fléchisseurs de hanche · Abducteurs",equip:["Sans matériel"],desc:"Grands cercles de hanches (10 fois chaque sens). Puis balancements de jambe avant-arrière et latéraux en te tenant à un support.",tip:"Mouvements amples et contrôlés, sans forcer."},
@@ -1082,6 +1204,9 @@ const LIBRARY = {
     {name:"Étirement du dos (enfant)",reps:"1 min",isTimer:true,seconds:60,muscles:"Grand dorsal · Lombaires",equip:["Sans matériel"],desc:"À genoux, assise sur les talons, bras tendus devant sur le sol. Laisse le dos s'étirer complètement.",tip:"Respire profondément dans l'étirement."},
     {name:"Étirements ischio-jambiers",reps:"30s/côté",isTimer:true,seconds:60,muscles:"Ischio-jambiers · Mollets",equip:["Sans matériel"],desc:"Assise au sol, une jambe tendue, l'autre fléchie. Penche-toi doucement vers le pied de la jambe tendue sans arrondir le dos.",tip:"Sens l'étirement dans la cuisse arrière, pas dans le dos."},
     {name:"Respiration de récupération",reps:"1 min",isTimer:true,seconds:60,muscles:"Diaphragme · Relaxation",equip:["Sans matériel"],desc:"Inspire 4s, retiens 4s, expire 6s. Répète jusqu'à ce que la fréquence cardiaque redescende complètement.",tip:"Ferme les yeux si tu peux. Tu l'as mérité !"},
+    {name:"Étirement mollets au mur",reps:"30s/côté",isTimer:true,seconds:60,muscles:"Mollets · Soléaire",equip:["Sans matériel"],desc:"Face au mur, pose les mains à hauteur de poitrine. Un pied en avant, le pied arrière à plat, jambe tendue. Pousse le talon arrière dans le sol en te penchant légèrement vers le mur. Répète avec le genou légèrement fléchi pour cibler le soléaire.",tip:"Deux positions : jambe tendue (mollet haut) puis genou fléchi (soléaire)."},
+    {name:"Posture du pigeon",reps:"45s/côté",isTimer:true,seconds:90,muscles:"Fléchisseurs de hanche · Piriformis · Fessiers",equip:["Sans matériel"],desc:"À quatre pattes, ramène un genou vers l'avant derrière ta main, jambe arrière tendue. Abaisse les hanches vers le sol. Reste en appui sur les avant-bras ou allongée sur la cuisse avant si l'amplitude le permet.",tip:"Ne force pas si tu sens une douleur au genou. Respire dans l'étirement."},
+    {name:"Torsion lombaire allongée",reps:"30s/côté",isTimer:true,seconds:60,muscles:"Lombaires · Obliques · Colonne",equip:["Sans matériel"],desc:"Allongée sur le dos, genou fléchi ramené vers la poitrine. Guide ce genou vers l'opposé jusqu'au sol, le regard et le bras homolatéral ouverts de l'autre côté. Les épaules restent plaquées au sol.",tip:"Idéal après un circuit heavy. Laisse la gravité faire le travail, ne force pas."},
   ],
 
   // ─── BAS DU CORPS ──────────────────────────
@@ -1099,6 +1224,15 @@ const LIBRARY = {
     {name:"Donkey kicks mini-band",reps:"15/côté",isTimer:false,seconds:0,muscles:"Grand fessier · Stabilisateurs hanche",equip:["Mini-band (chevilles)"],desc:"À quatre pattes, mini-band autour d'une cheville. Pousse le talon vers le plafond, genou fléchi à 90°. La cuisse monte à hauteur des hanches. Reviens sans poser.",tip:"Hanche stable. Contracte le fessier en haut."},
     {name:"Pont fessier Swiss ball",reps:"15 reps",isTimer:false,seconds:0,muscles:"Grand fessier · Ischio-jambiers · Core",equip:["Swiss ball"],desc:"Allongée sur le dos, talons sur le Swiss ball. Monte les hanches en contractant les fessiers jusqu'à former une ligne épaules-hanches-talons. Redescends en contrôle.",tip:"Le Swiss ball = instabilité = plus d'engagement musculaire."},
     {name:"Side steps mini-band",reps:"12 pas/côté",isTimer:false,seconds:0,muscles:"Moyen fessier · Abducteurs",equip:["Mini-band (chevilles/genoux)"],desc:"Mini-band autour des chevilles ou des genoux. Position semi-accroupie. Pas latéraux en maintenant la tension constante. 12 pas à droite, 12 à gauche = 1 set.",tip:"Reste en mini-squat constant, ne te redresse pas entre les pas."},
+    {name:"Squat jump",reps:"12 reps",isTimer:false,seconds:0,muscles:"Quadriceps · Grand fessier · Mollets · Cardio",equip:["Sans matériel"],desc:"Pieds à la largeur des épaules. Descends en squat (cuisses parallèles), puis pousse explosif pour décoller du sol — bras lancés vers le haut pour t'aider. Réception souple sur l'avant des pieds, enchaîne immédiatement.",tip:"Réception contrôlée : genoux dans l'axe. Si impact trop fort, remplace par squat rapide sans saut."},
+    {name:"Fentes marchées haltères",reps:"10/jambe",isTimer:false,seconds:0,muscles:"Quadriceps · Grand fessier · Équilibre",equip:["Haltères"],desc:"Haltères dans chaque main. Grand pas en avant, descends genou arrière proche du sol, puis avance le pied arrière pour enchaîner la fente suivante. Déplacement continu sur 10 pas par côté.",tip:"Buste droit, regard devant. Plus de déplacement = plus de proprioception."},
+    {name:"Squat bulgare step + haltères",reps:"10/jambe",isTimer:false,seconds:0,muscles:"Quadriceps · Grand fessier · Stabilisateurs",equip:["Step","Haltères"],desc:"Pied arrière posé sur le step, pied avant à ~70 cm devant. Descends en fléchissant le genou avant jusqu'à 90°, genou arrière proche du sol. Haltères dans chaque main. 10 reps sur une jambe, puis change.",tip:"★ Excellent pour l'asymétrie et le déséquilibre musculaire. Garde le poids sur le talon avant."},
+    {name:"Leg curl Swiss ball",reps:"12 reps",isTimer:false,seconds:0,muscles:"Ischio-jambiers · Grand fessier · Core",equip:["Swiss ball"],desc:"Allongée sur le dos, talons posés sur le Swiss ball. Monte les hanches (pont fessier), puis ramène les talons vers les fessiers en roulant la balle, puis ré-étends. Les hanches restent hautes tout au long.",tip:"Mouvement lent, surtout à la phase d'extension. L'instabilité cible intensément les ischio."},
+    {name:"Abductions couchées mini-band",reps:"20/côté",isTimer:false,seconds:0,muscles:"Moyen fessier · Tenseur fascia lata",equip:["Mini-band (chevilles)"],desc:"Allongée sur le côté, mini-band aux chevilles, jambes légèrement fléchies. Soulève la jambe supérieure en gardant le pied parallèle au sol (ne pointe pas les orteils vers le plafond). Redescends lentement en résistant.",tip:"Zéro balancement du bassin. Si tu le sens rouler, c'est trop lourd ou trop haut."},
+    {name:"Calf raises step",reps:"20 reps",isTimer:false,seconds:0,muscles:"Soléaire · Gastrocnémien",equip:["Step"],desc:"Debout sur le bord du step, talons dans le vide. Descends les talons sous le niveau du step pour étirer les mollets, puis monte sur les pointes des pieds au maximum. Pause 1s en haut.",tip:"Pour monter en intensité : uni-pédal. Excellent en finisher ou récup active entre sets."},
+    {name:"Romanian Deadlift mono-jambe kettlebell",reps:"10/côté",isTimer:false,seconds:0,muscles:"Ischio-jambiers · Grand fessier · Stabilisateurs",equip:["Kettlebell 6-8 kg"],desc:"Debout sur une jambe, kettlebell dans la main opposée. Penche-toi en avant en gardant le dos plat, la jambe libre monte derrière toi. Descends jusqu'à sentir l'étirement de l'ischio, remonte en contractant le fessier.",tip:"Regard fixé sur un point fixe pour l'équilibre. Commence léger — l'instabilité démultiplie l'effort."},
+    {name:"Curtsy lunge haltères",reps:"12/côté",isTimer:false,seconds:0,muscles:"Grand fessier · Adducteurs · Quadriceps",equip:["Haltères"],desc:"Haltères dans chaque main. Depuis la position debout, croise le pied arrière en diagonale derrière la jambe avant (comme une révérence). Descends le genou croisé vers le sol. Remonte et reviens à la position initiale.",tip:"★ Excellent pour les fessiers latéraux et l'adducteur. Garde le buste bien droit."},
+    {name:"Squat sumo kettlebell",reps:"15 reps",isTimer:false,seconds:0,muscles:"Adducteurs · Quadriceps · Grand fessier",equip:["Kettlebell 6-8 kg"],desc:"Pieds très écartés (1,5× épaules), pointes à 45°. Tiens le kettlebell à deux mains entre tes jambes bras tendus. Descends en gardant les genoux poussés vers l'extérieur, le dos droit. Remonte en serrant les fessiers.",tip:"La position large cible davantage les adducteurs et le fessier interne que le squat classique."},
   ],
 
   // ─── HAUT DU CORPS ─────────────────────────
@@ -1114,6 +1248,14 @@ const LIBRARY = {
     {name:"TRX Extension triceps",reps:"12 reps",isTimer:false,seconds:0,muscles:"Triceps · Stabilisateurs épaule",equip:["TRX"],desc:"Face au sol, mains dans les sangles au niveau du front, coudes pointés en avant. Fléchis les coudes pour descendre, repousse pour tendre les bras. Corps gainé en planche.",tip:"★ Contre la peau sous les bras ! Coudes fixes."},
     {name:"Arnold press haltères",reps:"10 reps",isTimer:false,seconds:0,muscles:"Deltoïde (3 faisceaux) · Trapèze · Triceps",equip:["Haltères 2-3 kg"],desc:"Assise sur le step, haltères à hauteur des épaules, paumes vers toi. En montant, pivote les poignets pour terminer paumes vers l'extérieur au-dessus de la tête. Inverse à la descente.",tip:"Mouvement rotatif fluide. Recrute les 3 faisceaux du deltoïde."},
     {name:"Thruster Kettlebell",reps:"12 reps",isTimer:false,seconds:0,muscles:"Quadriceps · Épaules · Full body",equip:["Kettlebell 6-8 kg"],desc:"Kettlebell contre la poitrine. Squat profond, puis à la remontée pousse le kettlebell au-dessus de la tête bras tendus. Redescends-le en retournant en squat. Mouvement fluide et continu.",tip:"Un seul mouvement fluide — le squat donne l'élan pour la presse."},
+    {name:"Pompes classiques",reps:"10-15 reps",isTimer:false,seconds:0,muscles:"Pectoraux · Triceps · Deltoïde antérieur · Core",equip:["Sans matériel"],desc:"En appui sur les mains (légèrement plus larges que les épaules) et les pieds, corps en ligne droite. Descends la poitrine jusqu'à 2-3 cm du sol, coudes à 45° du corps. Remontée explosive sans verrouiller les coudes.",tip:"Corps gainé de la tête aux talons. Si trop difficile, mains sur le step pour incliner le corps."},
+    {name:"Pompes inclinées sur step",reps:"12 reps",isTimer:false,seconds:0,muscles:"Pectoraux bas · Triceps · Avant-bras",equip:["Step"],desc:"Mains posées sur le step, pieds au sol — corps incliné à ~30°. Effectue des pompes normales. Cette position décharge le poids et cible le bas des pectoraux tout en réduisant la difficulté.",tip:"Plus le step est haut, plus c'est facile. Inverse (pieds sur step) pour cibler le haut des pectoraux."},
+    {name:"Face pulls super band espalier",reps:"15 reps",isTimer:false,seconds:0,muscles:"Deltoïde postérieur · Rhomboïdes · Coiffe des rotateurs",equip:["Super band","Espalier"],desc:"Super band fixée à hauteur de visage sur l'espalier. Saisis les deux extrémités, recule d'un pas. Tire les mains vers ton visage en ouvrant les coudes sur les côtés (comme pour 'montrer tes biceps'). Squeeze les omoplates en fin de mouvement.",tip:"★ Préventif épaules. Contrebalance tous les exercices de poussée. Résistance légère, technique parfaite."},
+    {name:"Développé épaules haltères assis",reps:"10-12 reps",isTimer:false,seconds:0,muscles:"Deltoïde antérieur et médial · Trapèze · Triceps",equip:["Haltères"],desc:"Assise sur le step, haltères à hauteur des épaules paumes vers l'avant. Pousse les haltères au-dessus de la tête sans verrouiller les coudes en haut. Descends lentement en 3s.",tip:"Ne cambre pas le bas du dos. Abdos contractés tout au long. Variante neutre : paumes face à face."},
+    {name:"Curl marteau haltères",reps:"12 reps",isTimer:false,seconds:0,muscles:"Biceps brachial · Brachioradialis · Avant-bras",equip:["Haltères"],desc:"Debout, haltères dans chaque main en prise neutre (pouces vers le haut, paumes face aux cuisses). Fléchis les coudes alternativement en gardant les bras collés au corps. Le poignet reste rigide tout au long.",tip:"Cible davantage le brachioradialis — idéal pour la largeur du bras et la force d'avant-bras."},
+    {name:"Triceps kick-back haltère",reps:"12/côté",isTimer:false,seconds:0,muscles:"Triceps (chef latéral et médial)",equip:["Haltères","Step"],desc:"Un genou et une main sur le step, dos plat parallèle au sol. Bras actif fléchi à 90° au départ, coude collé au corps. Étends le bras vers l'arrière jusqu'à ce qu'il soit parallèle au sol. Pause 1s, redescends lentement.",tip:"★ Idéal pour tonifier le dessous du bras. Mouvement complet uniquement via le triceps, pas l'épaule."},
+    {name:"TRX Biceps curl",reps:"12 reps",isTimer:false,seconds:0,muscles:"Biceps brachial · Core",equip:["TRX"],desc:"Face au point d'ancrage, corps incliné en arrière, paumes vers le haut dans les sangles TRX. Fléchis les coudes en ramenant les mains vers les tempes — les coudes remontent légèrement. Redescends lentement.",tip:"Plus tu t'inclines, plus c'est difficile. Coudes fixes, seul l'avant-bras bouge."},
+    {name:"Rowing super band basse hauteur",reps:"15 reps",isTimer:false,seconds:0,muscles:"Grand dorsal · Rhomboïdes · Biceps",equip:["Super band","Espalier"],desc:"Super band ancrée en bas de l'espalier. Incline-toi en arrière, bras tendus vers le bas. Tire les coudes vers les hanches en gardant le dos plat — termines avec les mains près des cuisses. Excellent pour le bas du grand dorsal.",tip:"Maintiens le gainage abdominal pendant tout le mouvement. Recule pour ajuster la résistance."},
   ],
 
   // ─── CARDIO ────────────────────────────────
@@ -1128,6 +1270,13 @@ const LIBRARY = {
     {name:"Jumping jacks",reps:"30s",isTimer:true,seconds:30,muscles:"Full body · Cardio",equip:["Sans matériel"],desc:"Sautille en ouvrant et fermant les jambes et les bras simultanément : bras en bas jambes jointes, bras au-dessus jambes écartées.",tip:"Récupération active entre les exercices plus intenses."},
     {name:"Mountain climbers",reps:"30s",isTimer:true,seconds:30,muscles:"Core · Épaules · Cardio",equip:["Sans matériel"],desc:"En position de pompe bras tendus, ramène alternativement un genou vers la poitrine le plus vite possible. Dos plat, bassin stable.",tip:"Épaules au-dessus des poignets. Plus vite = plus cardio."},
     {name:"Step touch cardio",reps:"30s",isTimer:true,seconds:30,muscles:"Bas du corps · Cardio",equip:["Step"],desc:"Montées-descentes rapides sur le step alternant les pieds. Bras actifs qui balancent pour maintenir le cardio.",tip:"Alternative douce au trampoline si périnée fatigué."},
+    {name:"High knees",reps:"30s",isTimer:true,seconds:30,muscles:"Fléchisseurs de hanche · Cardio · Core",equip:["Sans matériel"],desc:"Course sur place en montant les genoux au-delà de la hauteur des hanches. Bras actifs en alternance. Reste sur l'avant des pieds pour amortir. Intensité progressive sur les 10 premières secondes.",tip:"Engage les abdos à chaque montée de genou. Variante douce : marche sur place haute."},
+    {name:"Box jumps step",reps:"10 reps",isTimer:false,seconds:0,muscles:"Quadriceps · Fessiers · Mollets · Cardio",equip:["Step"],desc:"Face au step, pieds à la largeur des épaules. Fléchis les genoux, puis saute sur le step en atterrissant avec les deux pieds simultanément, genoux légèrement fléchis. Redescends en marchant, pas en sautant.",tip:"Réception souple — genoux dans l'axe, chevilles amorties. Commence par un step bas."},
+    {name:"Trampoline — haute fréquence",reps:"20s",isTimer:true,seconds:20,muscles:"Cardiovasculaire · Coordination",equip:["Trampoline"],desc:"Rebonds très rapides et peu amples — le but est la fréquence maximale, pas la hauteur. Comme courir sur le trampoline sans décoller. Bras en contre-mouvement. 20s d'effort max.",tip:"Cette variante haute fréquence protège davantage le périnée que les rebonds amples."},
+    {name:"Blazepod — Réactivité bras",reps:"30s",isTimer:true,seconds:30,muscles:"Épaules · Core · Coordination",equip:["Blazepod"],desc:"Pods disposés en demi-cercle au sol devant toi. En position semi-squat stable, frappe alternativement les pods avec chaque main le plus rapidement possible. Travail de coordination et d'explosivité des membres supérieurs.",tip:"Abdos contractés pour stabiliser le tronc. Frappe précise, pas de balancement."},
+    {name:"Skipping corde simulée",reps:"40s",isTimer:true,seconds:40,muscles:"Mollets · Cardio · Coordination",equip:["Sans matériel"],desc:"Simule la corde à sauter sans corde : petits sauts sur place sur l'avant des pieds, poignets qui tournent vers l'avant de chaque côté du corps. Rythme régulier et soutenu. Genoux légèrement fléchis à la réception.",tip:"Excellent cardio sans impact élevé. Variante : alterne pieds ou sauts latéraux."},
+    {name:"Bear crawl",reps:"30s",isTimer:true,seconds:30,muscles:"Épaules · Core · Cardio · Coordination",equip:["Sans matériel"],desc:"À quatre pattes, genoux décollés du sol de 5 cm. Avance en déplaçant simultanément la main droite et le pied gauche, puis la main gauche et le pied droit. Corps bas, dos plat. Avance sur 5m puis reviens.",tip:"Lent et contrôlé d'abord, puis accélère. Un des meilleurs exercices core + cardio sans matériel."},
+    {name:"Squat jump mini-band",reps:"12 reps",isTimer:false,seconds:0,muscles:"Quadriceps · Grand fessier · Moyen fessier · Cardio",equip:["Mini-band (genoux)"],desc:"Mini-band autour des genoux. Descends en squat en poussant les genoux contre la bande, puis explose vers le haut. La bande force l'activation du moyen fessier même en phase aérienne. Réception souple, enchaîne.",tip:"La bande révèle immédiatement si les genoux rentrent vers l'intérieur à la réception."},
   ],
 
   // ─── GAINAGE & CORE ────────────────────────
@@ -1143,6 +1292,14 @@ const LIBRARY = {
     {name:"Gainage frontal",reps:"45s",isTimer:true,seconds:45,muscles:"Transverse · Rectus abdominis · Fessiers",equip:["Sans matériel"],desc:"En appui sur les avant-bras et les pieds, corps en ligne droite de la tête aux talons. Rentre le ventre, contracte les fessiers, respire normalement.",tip:"Regarde le sol. Ne laisse pas les hanches tomber ou monter."},
     {name:"Relevés de jambes au sol",reps:"12 reps",isTimer:false,seconds:0,muscles:"Rectus abdominis · Fléchisseurs de hanche",equip:["Sans matériel"],desc:"Allongée sur le dos, mains sous les lombaires. Genoux fléchis à 90° au-dessus des hanches. Descends lentement les jambes vers le sol sans cambrer le dos, remonte.",tip:"Ne descends que jusqu'où le dos reste plaqué au sol. Genoux fléchis."},
     {name:"Pull-over haltère Swiss ball",reps:"12 reps",isTimer:false,seconds:0,muscles:"Grand dorsal · Pectoraux · Core",equip:["Haltère","Swiss ball"],desc:"Allongée sur le Swiss ball (nuque et épaules sur la balle, bassin en l'air), haltère à deux mains. Descends les bras derrière la tête en contrôlant, remonte.",tip:"Maintiens les hanches hautes. Mouvement lent."},
+    {name:"Superman au sol",reps:"15 reps",isTimer:false,seconds:0,muscles:"Érecteurs du rachis · Fessiers · Rhomboïdes",equip:["Sans matériel"],desc:"Allongée sur le ventre, bras tendus devant toi. Soulève simultanément bras, poitrine et jambes du sol — comme un Superman en vol. Tiens 2s au sommet, redescends sans toucher le sol et enchaîne.",tip:"Ne comprime pas la nuque — regarde le sol. Idéal pour renforcer la chaîne postérieure complète."},
+    {name:"Crunch vélo",reps:"20/côté",isTimer:false,seconds:0,muscles:"Obliques · Rectus abdominis · Fléchisseurs de hanche",equip:["Sans matériel"],desc:"Allongée sur le dos, mains derrière la nuque (pas de pression). Genoux à 90° en l'air. Rapproche le coude droit du genou gauche en tendant la jambe droite, puis alterne. Mouvement de pédalage rotatif continu.",tip:"Engage les obliques, pas le cou. Mouvement lent et contrôlé plutôt que rapide et bâclé."},
+    {name:"Russian twist haltère",reps:"20 reps",isTimer:false,seconds:0,muscles:"Obliques · Transverse · Fléchisseurs de hanche",equip:["Haltère"],desc:"Assise au sol, genoux fléchis, pieds décollés ou posés selon ton niveau. Tiens un haltère à deux mains devant toi. Tourne le buste à droite pour approcher l'haltère du sol côté droit, puis à gauche. 1 aller-retour = 1 rep.",tip:"L'haltère tenu haut avec les bras semi-tendus augmente l'amplitude et le levier."},
+    {name:"Roll-out Swiss ball",reps:"10-12 reps",isTimer:false,seconds:0,muscles:"Transverse · Rectus abdominis · Grand dorsal",equip:["Swiss ball"],desc:"À genoux, mains posées sur le Swiss ball devant toi. Fais rouler la balle vers l'avant en t'allongeant au maximum sans que les hanches ne descendent. Remonte en contractant les abdos — ne laisse pas les hanches tomber.",tip:"Considéré comme l'un des exercices abdominaux les plus efficaces. Commence avec petite amplitude."},
+    {name:"Hollow body hold",reps:"30s",isTimer:true,seconds:30,muscles:"Transverse · Rectus abdominis · Fléchisseurs de hanche",equip:["Sans matériel"],desc:"Allongée sur le dos. Soulève légèrement épaules et jambes du sol — bras tendus au-dessus de la tête. Corps en forme de banane creuse. Le bas du dos doit rester plaqué au sol tout le temps.",tip:"Si le dos se décolle, remonte les jambes. La puissance vient de la qualité de la position, pas de sa durée."},
+    {name:"Traction abdominale espalier",reps:"10-12 reps",isTimer:false,seconds:0,muscles:"Fléchisseurs de hanche · Rectus abdominis · Avant-bras",equip:["Espalier"],desc:"Suspends-toi à la barre de l'espalier, bras tendus. Ramène les genoux vers la poitrine (variante facile) ou tend les jambes à l'horizontale (difficile). Descends lentement et sans balancement.",tip:"Stabilise le buste en début de mouvement. Si les épaules remontent, relâche le trapèze."},
+    {name:"Planche sur Swiss ball",reps:"30s",isTimer:true,seconds:30,muscles:"Transverse · Rectus abdominis · Épaules · Fessiers",equip:["Swiss ball"],desc:"Avant-bras posés sur le Swiss ball, pieds au sol, corps en ligne droite. Le Swiss ball crée une instabilité constante qui force un gainage profond permanent. Ne laisse pas la balle bouger.",tip:"Beaucoup plus difficile qu'une planche classique. Commence par 20s si nécessaire."},
+    {name:"Ab wheel rollout step",reps:"10 reps",isTimer:false,seconds:0,muscles:"Transverse · Rectus abdominis · Grand dorsal",equip:["Step"],desc:"À genoux face au step, mains posées sur le bord du step. Fais glisser les mains vers l'avant en t'allongeant (simulant un roll-out), puis remonte en contractant les abdos. Alternative au Swiss ball.",tip:"Garde le bas du dos neutre tout au long. Plus les mains avancent loin, plus c'est difficile."},
   ],
 };
 
@@ -1215,11 +1372,9 @@ function isEquipAvailable(ex){
 }
 
 function pick(arr, n, exclude=[]){
-  const pool = arr.filter(e => !exclude.includes(e.name) && isEquipAvailable(e));
-  const result = [];
-  const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  for(let i = 0; i < Math.min(n, shuffled.length); i++) result.push(shuffled[i]);
-  return result;
+  const hidden = new Set(loadHiddenEx());
+  const pool = arr.filter(e => !exclude.includes(e.name) && isEquipAvailable(e) && !hidden.has(e.name));
+  return [...pool].sort(()=>Math.random()-.5).slice(0, Math.min(n, pool.length));
 }
 
 function makeBloc(title, info, exercises, tours=null, rest=60){
@@ -1236,10 +1391,28 @@ function buildSeance(){
   const hasCardio = isFullBody || zones.includes('cardio');
   const hasCore   = isFullBody || zones.includes('core');
 
-  let tours, exPerBloc;
+  // ── Paramètres de base ──
+  let tours, exPerBloc, restWork = 60, restCardio = 30, restCore = 45;
   if(customDuration === '45 min')      { tours = 2; exPerBloc = 3; }
   else if(customDuration === '1 heure'){ tours = 3; exPerBloc = 3; }
   else                                  { tours = 3; exPerBloc = 4; }
+
+  // ── Analyse de l'historique ──
+  const sig = analyzeHistory();
+
+  if(sig){
+    if(sig.tooHard >= 4){
+      tours      = Math.max(1, tours - 1);
+      restWork  += 15; restCardio += 10; restCore += 10;
+    } else if(sig.tooHard >= 2){
+      restWork  += 10; restCardio += 5;
+    }
+    if(sig.tooEasy >= 3){
+      tours = Math.min(tours + 1, 5);
+    }
+    if(sig.tooLong >= 2)  exPerBloc = Math.max(2, exPerBloc - 1);
+    if(sig.tooShort >= 2) exPerBloc = Math.min(exPerBloc + 1, 5);
+  }
 
   const usedNames = [];
   const blocs = [];
@@ -1252,30 +1425,35 @@ function buildSeance(){
     warmupExs, null, 0));
 
   if(hasCardio){
-    const exs = getAdjustedPick(LIBRARY.cardio, exPerBloc, usedNames);
+    const exs = getSmartPick(enrichedCategory('cardio'), exPerBloc, usedNames, sig);
     exs.forEach(e => usedNames.push(e.name));
-    blocs.push(makeBloc('⚡ Cardio & Réactivité', `${tours} tours · 30-45s effort / 30s repos`, exs, tours, 30));
+    blocs.push(makeBloc('⚡ Cardio & Réactivité',
+      `${tours} tours · 30-45s effort / ${restCardio}s repos`, exs, tours, restCardio));
   }
   if(hasBas){
-    const exs = getAdjustedPick(LIBRARY.bas, exPerBloc, usedNames);
+    const exs = getSmartPick(enrichedCategory('bas'), exPerBloc, usedNames, sig);
     exs.forEach(e => usedNames.push(e.name));
-    blocs.push(makeBloc('🍑 Bas du corps', `${tours} séries · 12-15 reps · 60s récup`, exs, tours, 60));
+    blocs.push(makeBloc('🍑 Bas du corps',
+      `${tours} séries · 12-15 reps · ${restWork}s récup`, exs, tours, restWork));
   }
   if(hasHaut){
-    const exs = getAdjustedPick(LIBRARY.haut, exPerBloc, usedNames);
+    const exs = getSmartPick(enrichedCategory('haut'), exPerBloc, usedNames, sig);
     exs.forEach(e => usedNames.push(e.name));
-    blocs.push(makeBloc('💪 Haut du corps', `${tours} séries · 10-12 reps · 60s récup`, exs, tours, 60));
+    blocs.push(makeBloc('💪 Haut du corps',
+      `${tours} séries · 10-12 reps · ${restWork}s récup`, exs, tours, restWork));
   }
   if(hasCore){
-    const exs = getAdjustedPick(LIBRARY.core, exPerBloc, usedNames);
+    const exs = getSmartPick(enrichedCategory('core'), exPerBloc, usedNames, sig);
     exs.forEach(e => usedNames.push(e.name));
-    blocs.push(makeBloc('🔥 Gainage & Core', `${tours} séries · 10-40s · 45s récup`, exs, tours, 45));
+    blocs.push(makeBloc('🔥 Gainage & Core',
+      `${tours} séries · 10-40s · ${restCore}s récup`, exs, tours, restCore));
   }
   if(isFullBody && customDuration !== '45 min'){
-    const extra = getAdjustedPick(LIBRARY.bas, 3, usedNames);
+    const extra = getSmartPick(enrichedCategory('bas'), 3, usedNames, sig);
     if(extra.length > 0){
       extra.forEach(e => usedNames.push(e.name));
-      blocs.push(makeBloc('🏋️ Force complémentaire', `${tours} séries · 12 reps · 60s récup`, extra, tours, 60));
+      blocs.push(makeBloc('🏋️ Force complémentaire',
+        `${tours} séries · 12 reps · ${restWork}s récup`, extra, tours, restWork));
     }
   }
 
@@ -1294,6 +1472,7 @@ function buildSeance(){
     subtitle: zoneLabels.join(' · ') + ' · ' + customDuration,
     color, colorBg:`rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.15)`,
     tags:[...zoneLabels, customDuration], blocs,
+    insights: sig ? sig.insights : [],
   };
 }
 
@@ -1318,6 +1497,16 @@ function renderCustomOverview(){
     .map(x=>`<div class="stat-pill">${x}</div>`).join('');
 
   const c = document.getElementById('coBlocs'); c.innerHTML = '';
+
+  // Bandeau insights si l'historique a influencé la séance
+  if(s.insights && s.insights.length){
+    const card = document.createElement('div');
+    card.className = 'insights-card';
+    card.innerHTML = `<div class="insights-title">🧠 Adapté d'après tes séances précédentes</div>`
+      + s.insights.map(i=>`<div class="insight-item">${i}</div>`).join('');
+    c.appendChild(card);
+  }
+
   s.blocs.forEach(bloc => {
     const sec = document.createElement('div');
     sec.innerHTML = `
@@ -1399,6 +1588,7 @@ function saveRating(){
     stars: ratingStars,
     feedback: [...ratingFeedback],
     note: document.getElementById('ratingNote').value.trim(),
+    exerciseNames: flatSteps.filter(s=>!s.isRest&&!s.isTourPreview&&s.exercise).map(s=>s.exercise.name),
     zones: curSeance.tags || [],
   };
   const hist = loadHistory();
@@ -1458,30 +1648,118 @@ function clearHistory(){
   }
 }
 
-// ── INFLUENCE SUR LES SÉANCES CUSTOM ─────────
-// Pondère les catégories en fonction du dernier feedback
-function getAdjustedPick(arr, n, exclude){
+// ── ANALYSE DE L'HISTORIQUE ──────────────────
+// Mots-clés par zone corporelle — pour exclure les exercices contra-indiqués
+const BODY_KEYWORDS = {
+  knee:     /genou|genoux|rotule|ligament|ménisque/i,
+  shoulder: /épaule|épaules|coiffe|rotateur|tendinite|tendon/i,
+  back:     /dos|lombaire|lombaires|colonne|hernie|sciatique/i,
+  impact:   /saut|sauts|impact|périnée|perinee|trampoline.*mal|rebond.*mal/i,
+};
+// Exercices à exclure selon la zone douloureuse (sous-chaînes de noms)
+const EXCL = {
+  knee:     ['squat','fente','jump','step up','bulgare','curtsy','pistol','mountain','box','high knee','donkey kick'],
+  shoulder: ['développé','arnold','thruster','élévation latérale','face pull','tirage super band'],
+  back:     ['deadlift','romanian','swing','soulevé'],
+  impact:   ['jump','burpee','trampoline','skipping','high knee','box jump','squat jump'],
+};
+
+function analyzeHistory(){
   const hist = loadHistory();
-  if(!hist.length) return pick(arr, n, exclude);
+  if(!hist.length) return null;
 
-  // Look at last 3 sessions for feedback signals
-  const recent = hist.slice(0,3);
-  const tooHard  = recent.some(r=>r.feedback&&r.feedback.includes('trop-difficile'));
-  const tooEasy  = recent.some(r=>r.feedback&&r.feedback.includes('trop-facile'));
+  const recent = hist.slice(0, 5);
+  const sig = {
+    tooHard: 0, tooEasy: 0, tooLong: 0, tooShort: 0,
+    needsVariety: false,
+    avoidKnee: false, avoidShoulder: false, avoidBack: false, avoidImpact: false,
+    recentNames: new Set(),
+    insights: [],
+  };
 
-  // Filter pool by equipment as usual
+  recent.forEach(r=>{
+    // Étoiles
+    if(r.stars && r.stars <= 2) sig.tooHard += 2;
+    if(r.stars && r.stars >= 5) sig.tooEasy += 1;
+
+    // Chips de feedback
+    if(r.feedback){
+      if(r.feedback.includes('trop-difficile')) sig.tooHard += 2;
+      if(r.feedback.includes('trop-facile'))    sig.tooEasy += 2;
+      if(r.feedback.includes('trop-longue'))    sig.tooLong++;
+      if(r.feedback.includes('trop-courte'))    sig.tooShort++;
+      if(r.feedback.includes('manque-variete')) sig.needsVariety = true;
+    }
+
+    // Note libre — mots-clés corps
+    if(r.note){
+      if(BODY_KEYWORDS.knee.test(r.note))     sig.avoidKnee = true;
+      if(BODY_KEYWORDS.shoulder.test(r.note)) sig.avoidShoulder = true;
+      if(BODY_KEYWORDS.back.test(r.note))     sig.avoidBack = true;
+      if(BODY_KEYWORDS.impact.test(r.note))   sig.avoidImpact = true;
+      if(/trop lourd|charge trop|trop intense/i.test(r.note)) sig.tooHard += 1;
+      if(/trop léger|trop facile|trop simple/i.test(r.note))  sig.tooEasy += 1;
+    }
+
+    // Exercices récemment faits (pour la variété)
+    (r.exerciseNames||[]).forEach(n=>sig.recentNames.add(n));
+  });
+
+  // Construire les messages d'explication
+  if(sig.tooHard >= 4)      sig.insights.push('Intensité réduite et repos rallongés — séances récentes jugées trop difficiles');
+  else if(sig.tooHard >= 2) sig.insights.push('Repos légèrement allongés — fatigue détectée dans tes retours');
+  if(sig.tooEasy >= 3)      sig.insights.push('Tours supplémentaires ajoutés — séances précédentes trop faciles');
+  if(sig.tooLong >= 2)      sig.insights.push('Blocs raccourcis — séances précédentes trop longues');
+  if(sig.tooShort >= 2)     sig.insights.push('Exercices supplémentaires ajoutés — séances précédentes trop courtes');
+  if(sig.needsVariety)      sig.insights.push('Exercices différents privilégiés — tu avais demandé plus de variété');
+  if(sig.avoidKnee)         sig.insights.push('Exercices genoux évités — douleur mentionnée dans tes notes');
+  if(sig.avoidShoulder)     sig.insights.push('Presses lourdes épaules évitées — douleur mentionnée dans tes notes');
+  if(sig.avoidBack)         sig.insights.push('Exercices dos intensifs évités — douleur mentionnée dans tes notes');
+  if(sig.avoidImpact)       sig.insights.push('Sauts et impacts évités — mentionné dans tes notes');
+
+  return sig;
+}
+
+// ── PICK INTELLIGENT ─────────────────────────
+function getSmartPick(arr, n, exclude, sig){
   let pool = arr.filter(e=>!exclude.includes(e.name)&&isEquipAvailable(e));
 
-  // If recent sessions were too hard, slightly favour bodyweight/low-equip exercises
-  // If too easy, no specific filter (let random play)
-  // This is a soft nudge, not a hard filter
-  if(tooHard){
-    const lighter = pool.filter(e=>e.equipKeys&&(e.equipKeys.includes('none')||e.equipKeys.length<=1));
-    if(lighter.length >= n) pool = lighter;
+  function tryFilter(filtered){ return filtered.length >= n ? filtered : null; }
+  function exclByKw(p, kws){
+    return p.filter(e=>!kws.some(k=>e.name.toLowerCase().includes(k)));
   }
 
-  const shuffled = [...pool].sort(()=>Math.random()-.5);
-  return shuffled.slice(0, Math.min(n, shuffled.length));
+  if(sig){
+    // Variété : exclure ce qui a déjà été fait récemment
+    if(sig.needsVariety && sig.recentNames.size){
+      const fresh = pool.filter(e=>!sig.recentNames.has(e.name));
+      if(fresh.length >= n) pool = fresh;
+    }
+    // Zones douloureuses
+    if(sig.avoidKnee){
+      const f = tryFilter(exclByKw(pool, EXCL.knee));
+      if(f) pool = f;
+    }
+    if(sig.avoidShoulder){
+      const f = tryFilter(exclByKw(pool, EXCL.shoulder));
+      if(f) pool = f;
+    }
+    if(sig.avoidBack){
+      const f = tryFilter(exclByKw(pool, EXCL.back));
+      if(f) pool = f;
+    }
+    if(sig.avoidImpact){
+      const f = tryFilter(exclByKw(pool, EXCL.impact));
+      if(f) pool = f;
+    }
+    // Intensité — préférer poids du corps si trop difficile
+    if(sig.tooHard >= 2){
+      const lighter = pool.filter(e=>e.equipKeys&&(e.equipKeys.includes('none')||e.equipKeys.length<=1));
+      if(lighter.length >= n) pool = lighter;
+    }
+  }
+
+  return [...pool].sort(()=>Math.random()-.5).slice(0, Math.min(n, pool.length));
 }
 
 // ── FIX #2 : Passer sans repos (saute le step isRest suivant) ─────
@@ -1515,6 +1793,214 @@ function addRestTime(n){
 // ── FIX #5 : Service Worker (offline) ────────────────────────────
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// ══════════════════════════════════════════════
+// MES EXERCICES — CRUD
+// ══════════════════════════════════════════════
+const USER_EX_KEY  = 'coach_sport_user_exercises';
+const HIDDEN_EX_KEY = 'coach_sport_hidden_ex';
+
+function loadUserExercises(){ try{ return JSON.parse(localStorage.getItem(USER_EX_KEY)||'[]'); }catch(e){ return []; } }
+function saveUserExercises(list){ try{ localStorage.setItem(USER_EX_KEY, JSON.stringify(list)); }catch(e){} }
+function loadHiddenEx(){ try{ return JSON.parse(localStorage.getItem(HIDDEN_EX_KEY)||'[]'); }catch(e){ return []; } }
+function saveHiddenEx(list){ try{ localStorage.setItem(HIDDEN_EX_KEY, JSON.stringify(list)); }catch(e){} }
+
+// Filtre les exercices masqués + ajoute les exercices utilisateur
+function enrichedCategory(key){
+  const hidden = new Set(loadHiddenEx());
+  const base = (LIBRARY[key]||[]).filter(ex => !hidden.has(ex.name));
+  const userExs = loadUserExercises()
+    .filter(ex => (ex.zones||[]).includes(key) && !hidden.has(ex.name))
+    .map(ex => ({ ...ex, equipKeys: ex.equipKeys || getEquipKeys(ex.equip||[]) }));
+  return [...base, ...userExs];
+}
+
+function hideBuiltinExercise(name){
+  const hidden = loadHiddenEx();
+  if(!hidden.includes(name)) hidden.push(name);
+  saveHiddenEx(hidden);
+  showMyExercises();
+}
+function restoreExercise(name){
+  saveHiddenEx(loadHiddenEx().filter(n=>n!==name));
+  showMyExercises();
+}
+
+let editingExId = null;
+let editorZones = new Set();
+let editorEquip = new Set();
+let editorType  = 'reps';
+
+const EQUIP_LABELS = {
+  tapis:'Tapis de course', halteres:'Haltères', kettlebell:'Kettlebell',
+  barre:'Barre de squat', step:'Step', trx:'TRX', swissball:'Swiss ball',
+  trampoline:'Trampoline', blazepod:'Blazepod', miniband:'Mini-band',
+  superband:'Super band', espalier:'Espalier',
+};
+const ZONE_LABELS_MAP = { bas:'Bas du corps', haut:'Haut du corps', cardio:'Cardio', core:'Core' };
+
+let libCatFilter = 'bas';
+
+function showMyExercises(){
+  const userList = loadUserExercises();
+  const hidden   = new Set(loadHiddenEx());
+  const sub = [
+    userList.length ? `${userList.length} perso` : '',
+    hidden.size ? `${hidden.size} masqué${hidden.size>1?'s':''}` : '',
+  ].filter(Boolean).join(' · ');
+  document.getElementById('myExSubtitle').textContent = sub || 'Crée et personnalise tes exercices';
+
+  const el = document.getElementById('myExList');
+  el.innerHTML = '';
+
+  // ── Mes créations ──
+  if(userList.length){
+    const lbl = document.createElement('div');
+    lbl.className = 'lib-section-label';
+    lbl.textContent = '✏️ Mes créations';
+    el.appendChild(lbl);
+    userList.forEach(ex => {
+      const card = document.createElement('div');
+      card.className = 'my-ex-card';
+      const zoneTxt = (ex.zones||[]).map(z=>ZONE_LABELS_MAP[z]||z).join(' · ');
+      card.innerHTML = `
+        <div class="my-ex-card-head">
+          <div>
+            <div class="my-ex-name">${esc(ex.name)}<span class="user-badge">perso</span></div>
+            <div class="my-ex-meta">${esc(ex.reps)}${zoneTxt?' · '+zoneTxt:''}</div>
+          </div>
+          <div class="my-ex-actions">
+            <button class="btn-edit-ex">✏️</button>
+            <button class="btn-delete-ex">×</button>
+          </div>
+        </div>
+        ${ex.muscles&&ex.muscles!=='Non renseigné'?`<div class="my-ex-muscles">${esc(ex.muscles)}</div>`:''}`;
+      card.querySelector('.btn-edit-ex').addEventListener('click', ()=>openExerciseEditor(ex));
+      card.querySelector('.btn-delete-ex').addEventListener('click', ()=>{
+        saveUserExercises(loadUserExercises().filter(e=>e.id!==ex.id));
+        showMyExercises();
+      });
+      el.appendChild(card);
+    });
+  }
+
+  // ── Bibliothèque ──
+  const libLbl = document.createElement('div');
+  libLbl.className = 'lib-section-label';
+  libLbl.textContent = '📚 Bibliothèque';
+  el.appendChild(libLbl);
+
+  const catDiv = document.createElement('div');
+  catDiv.className = 'lib-cat-chips';
+  [{k:'bas',l:'🍑 Bas'},{k:'haut',l:'💪 Haut'},{k:'cardio',l:'🔥 Cardio'},{k:'core',l:'⚡ Core'}]
+    .forEach(({k,l})=>{
+      const btn = document.createElement('button');
+      btn.className = 'lib-cat-chip'+(k===libCatFilter?' selected':'');
+      btn.textContent = l;
+      btn.addEventListener('click', ()=>{ libCatFilter=k; showMyExercises(); });
+      catDiv.appendChild(btn);
+    });
+  el.appendChild(catDiv);
+
+  // Encart info
+  const info = document.createElement('div');
+  info.className = 'bloc-info-pill';
+  info.style.margin = '0 0 12px';
+  info.textContent = '💡 Pour modifier un exercice existant, décris le changement dans le chat — il sera intégré dans le code source.';
+  el.appendChild(info);
+
+  (LIBRARY[libCatFilter]||[]).forEach(ex => {
+    const isHidden = hidden.has(ex.name);
+    const card = document.createElement('div');
+    card.className = 'my-ex-card'+(isHidden?' my-ex-card-hidden':'');
+    card.innerHTML = `
+      <div class="my-ex-card-head">
+        <div style="min-width:0;flex:1">
+          <div class="my-ex-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(ex.name)}</div>
+          <div class="my-ex-meta">${esc(ex.reps)}</div>
+        </div>
+        <div class="my-ex-actions">
+          ${isHidden
+            ? `<button class="btn-restore-ex">↩ Afficher</button>`
+            : `<button class="btn-hide-ex" title="Exclure des séances générées">🚫</button>`}
+        </div>
+      </div>
+      ${ex.muscles?`<div class="my-ex-muscles">${esc(ex.muscles)}</div>`:''}`;
+    if(isHidden){
+      card.querySelector('.btn-restore-ex').addEventListener('click', ()=>restoreExercise(ex.name));
+    } else {
+      card.querySelector('.btn-hide-ex').addEventListener('click', ()=>hideBuiltinExercise(ex.name));
+    }
+    el.appendChild(card);
+  });
+
+  showScreen('myExercises');
+}
+
+function openExerciseEditor(ex=null){
+  editingExId = ex ? ex.id : null;
+  editorZones = new Set(ex ? (ex.zones||[]) : []);
+  editorEquip = new Set(ex ? (ex.equipKeys||[]) : []);
+  editorType  = ex && ex.isTimer ? 'timer' : 'reps';
+
+  document.getElementById('editorTitle').textContent = ex ? 'Modifier l\'exercice' : 'Nouvel exercice';
+  document.getElementById('exName').value    = ex ? ex.name : '';
+  document.getElementById('exReps').value    = ex && !ex.isTimer ? ex.reps : '';
+  document.getElementById('exSeconds').value = ex && ex.isTimer ? ex.seconds : '';
+  document.getElementById('exMuscles').value = ex ? (ex.muscles||'') : '';
+  document.getElementById('exDesc').value    = ex ? (ex.desc||'') : '';
+  document.getElementById('exTip').value     = ex ? (ex.tip||'') : '';
+
+  document.querySelectorAll('#exZoneChips .chip').forEach(b=>
+    b.classList.toggle('selected', editorZones.has(b.dataset.value)));
+  document.querySelectorAll('#exTypeChips .intensity-chip').forEach(b=>
+    b.classList.toggle('selected', b.dataset.value===editorType));
+  document.querySelectorAll('#exEquipChips .chip').forEach(b=>
+    b.classList.toggle('selected', editorEquip.has(b.dataset.value)));
+  updateEditorTypeUI();
+
+  showScreen('exerciseEditor');
+  document.getElementById('exerciseEditor').scrollTop = 0;
+}
+
+function updateEditorTypeUI(){
+  document.getElementById('exRepsSection').style.display  = editorType==='reps'  ? '' : 'none';
+  document.getElementById('exTimerSection').style.display = editorType==='timer' ? '' : 'none';
+}
+
+function saveExercise(){
+  const name = document.getElementById('exName').value.trim();
+  if(!name){ alert('Donne un nom à l\'exercice !'); return; }
+  if(!editorZones.size){ alert('Sélectionne au moins une zone !'); return; }
+
+  const isTimer  = editorType === 'timer';
+  const rawReps  = document.getElementById('exReps').value.trim();
+  const rawSecs  = parseInt(document.getElementById('exSeconds').value) || 30;
+  const reps     = isTimer ? rawSecs+'s' : (rawReps || '10 reps');
+  const equip    = editorEquip.size
+    ? [...editorEquip].map(k=>EQUIP_LABELS[k]||k)
+    : ['Sans matériel'];
+
+  const ex = {
+    id:          editingExId || Date.now().toString(),
+    name,
+    zones:       [...editorZones],
+    reps,
+    isTimer,
+    seconds:     isTimer ? rawSecs : 0,
+    muscles:     document.getElementById('exMuscles').value.trim() || 'Non renseigné',
+    equip,
+    equipKeys:   [...editorEquip],
+    desc:        document.getElementById('exDesc').value.trim()    || 'Exercice personnalisé.',
+    tip:         document.getElementById('exTip').value.trim()     || 'Adapte à ton niveau.',
+    isUserCreated: true,
+  };
+
+  const list = loadUserExercises().filter(e=>e.id!==ex.id);
+  list.push(ex);
+  saveUserExercises(list);
+  showMyExercises();
 }
 
 // ── FIX #16 : Audio cues (Web Audio API) ─────────────────────────
@@ -1597,6 +2083,35 @@ function initListeners(){
   // Home
   document.getElementById('customConfigBtn').addEventListener('click', showCustomConfig);
   document.getElementById('historyLinkBtn').addEventListener('click', showHistory);
+  document.getElementById('myExBtn').addEventListener('click', showMyExercises);
+  // Mes exercices
+  document.getElementById('myExBackBtn').addEventListener('click', showHome);
+  document.getElementById('addExBtn').addEventListener('click', ()=>openExerciseEditor());
+  // Éditeur d'exercice
+  document.getElementById('editorBackBtn').addEventListener('click', showMyExercises);
+  document.getElementById('saveExBtn').addEventListener('click', saveExercise);
+  document.getElementById('exZoneChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.chip');
+    if(!chip) return;
+    chip.classList.toggle('selected');
+    if(chip.classList.contains('selected')) editorZones.add(chip.dataset.value);
+    else editorZones.delete(chip.dataset.value);
+  });
+  document.getElementById('exTypeChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.intensity-chip');
+    if(!chip) return;
+    editorType=chip.dataset.value;
+    document.querySelectorAll('#exTypeChips .intensity-chip').forEach(b=>b.classList.remove('selected'));
+    chip.classList.add('selected');
+    updateEditorTypeUI();
+  });
+  document.getElementById('exEquipChips').addEventListener('click', e=>{
+    const chip=e.target.closest('.chip');
+    if(!chip) return;
+    chip.classList.toggle('selected');
+    if(chip.classList.contains('selected')) editorEquip.add(chip.dataset.value);
+    else editorEquip.delete(chip.dataset.value);
+  });
   // Overview
   document.getElementById('ovBackBtn').addEventListener('click', showHome);
   document.getElementById('startWorkoutBtn').addEventListener('click', startWorkout);
