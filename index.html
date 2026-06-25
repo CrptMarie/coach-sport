@@ -115,6 +115,39 @@ button{cursor:pointer;font-family:inherit}
 .done-stat-val{font-size:26px;font-weight:900;color:#c084fc}
 .done-stat-label{font-size:11px;color:#94a3b8;margin-top:2px}
 .btn-home{width:100%;max-width:320px;padding:18px;background:linear-gradient(135deg,#c084fc,#818cf8);border:none;border-radius:16px;color:#fff;font-size:16px;font-weight:800}
+/* ── RATING ── */
+#rating{background:linear-gradient(160deg,#1a0a2e 0%,#0f0f13 60%);align-items:center;padding:48px 24px 40px;gap:0}
+.rating-scroll{width:100%;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;gap:24px}
+.rating-title{font-size:24px;font-weight:900;background:linear-gradient(135deg,#e0c3fc,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center}
+.rating-sub{font-size:13px;color:#94a3b8;text-align:center;margin-top:-16px}
+.stars-row{display:flex;gap:12px;justify-content:center}
+.star-btn{font-size:36px;background:none;border:none;opacity:.3;transition:opacity .15s,transform .1s}
+.star-btn.active{opacity:1}
+.star-btn:active{transform:scale(.9)}
+.rating-section{width:100%}
+.rating-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:10px}
+.feedback-grid{display:flex;flex-wrap:wrap;gap:8px}
+.feedback-chip{padding:10px 14px;background:#22222e;border:1.5px solid rgba(255,255,255,.1);border-radius:20px;color:#94a3b8;font-size:13px;font-weight:600}
+.feedback-chip.selected{background:rgba(192,132,252,.15);border-color:#c084fc;color:#c084fc}
+.rating-note{width:100%;padding:12px 14px;background:#22222e;border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#f1f5f9;font-size:14px;font-family:inherit;resize:none;min-height:64px;line-height:1.5}
+.rating-actions{width:100%;display:flex;flex-direction:column;gap:8px;padding-bottom:20px}
+.btn-save-rating{width:100%;padding:16px;background:linear-gradient(135deg,#c084fc,#818cf8);border:none;border-radius:16px;color:#fff;font-size:15px;font-weight:800}
+.btn-skip-rating{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:12px;color:#94a3b8;font-size:13px}
+/* ── HISTORY ── */
+#history{background:linear-gradient(160deg,#1a0a2e 0%,#0f0f13 50%)}
+.hist-list{padding:0 16px 80px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1}
+.hist-card{background:#22222e;border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px}
+.hist-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.hist-card-title{font-size:14px;font-weight:700}
+.hist-card-date{font-size:11px;color:#94a3b8}
+.hist-stars{font-size:16px;margin-bottom:6px}
+.hist-card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.hist-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:rgba(192,132,252,.12);color:#a78bfa;font-weight:600}
+.hist-feedback{font-size:11px;color:#fb923c;margin-bottom:4px}
+.hist-note{font-size:11px;color:#94a3b8;line-height:1.4;font-style:italic}
+.hist-empty{text-align:center;color:#94a3b8;font-size:14px;padding:60px 20px}
+.hist-clear{margin:0 16px 12px;padding:11px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:12px;color:#f87171;font-size:13px;font-weight:600;width:calc(100% - 32px)}
+.history-link{font-size:12px;color:#94a3b8;background:none;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:7px 16px;display:flex;align-items:center;gap:6px;margin-top:8px}
 /* ── TOUR PREVIEW ── */
 .tour-preview-overlay{position:fixed;inset:0;z-index:150;background:rgba(10,10,15,.96);display:none;flex-direction:column;align-items:center;justify-content:flex-end;padding:0}
 .tour-preview-overlay.active{display:flex}
@@ -175,6 +208,7 @@ button{cursor:pointer;font-family:inherit}
   <div class="home-sub">1h15 – 1h30 · Niveau intermédiaire</div>
   <div class="seance-grid" id="seanceGrid"></div>
   <button class="custom-btn" onclick="showCustomConfig()">✨ Générer une séance sur mesure</button>
+  <button class="history-link" onclick="showHistory()">📋 Historique des séances</button>
 </div>
 
 <!-- OVERVIEW -->
@@ -267,8 +301,62 @@ button{cursor:pointer;font-family:inherit}
   <div class="done-title">Séance terminée !</div>
   <div class="done-sub" id="doneSub"></div>
   <div class="done-stats" id="doneStats"></div>
-  <button class="btn-home" onclick="showHome()">← Retour à l'accueil</button>
-  <button class="rest-back" onclick="backFromDone()">← Revenir au dernier exercice</button>
+  <button class="btn-home" onclick="showRating()">⭐ Évaluer la séance</button>
+  <button class="rest-back" onclick="showHome()" style="margin-top:4px">← Retour à l'accueil</button>
+  <button class="rest-back" onclick="backFromDone()">↩ Revenir au dernier exercice</button>
+</div>
+
+<!-- RATING -->
+<div id="rating" class="screen">
+  <div class="rating-scroll">
+    <div style="font-size:56px;text-align:center">⭐</div>
+    <div class="rating-title">Comment s'est passée<br>la séance ?</div>
+    <div class="rating-sub" id="ratingSub"></div>
+
+    <div class="rating-section" style="width:100%">
+      <div class="rating-section-title">Note globale</div>
+      <div class="stars-row" id="starsRow">
+        <button class="star-btn" onclick="setStar(1)">⭐</button>
+        <button class="star-btn" onclick="setStar(2)">⭐</button>
+        <button class="star-btn" onclick="setStar(3)">⭐</button>
+        <button class="star-btn" onclick="setStar(4)">⭐</button>
+        <button class="star-btn" onclick="setStar(5)">⭐</button>
+      </div>
+    </div>
+
+    <div class="rating-section" style="width:100%">
+      <div class="rating-section-title">Ce qui n'allait pas <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></div>
+      <div class="feedback-grid">
+        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-longue')">⏱ Trop longue</button>
+        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-courte')">⏱ Trop courte</button>
+        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-difficile')">💪 Exercices trop difficiles</button>
+        <button class="feedback-chip" onclick="toggleFeedback(this,'trop-facile')">😴 Exercices trop faciles</button>
+        <button class="feedback-chip" onclick="toggleFeedback(this,'manque-variete')">🔄 Manque de variété</button>
+        <button class="feedback-chip" onclick="toggleFeedback(this,'parfaite')">✅ Parfaite !</button>
+      </div>
+    </div>
+
+    <div class="rating-section" style="width:100%">
+      <div class="rating-section-title">Note libre <span style="font-weight:400;text-transform:none;letter-spacing:0">(optionnel)</span></div>
+      <textarea class="rating-note" id="ratingNote" placeholder="Ex : les burpees étaient trop intenses, j'ai adoré le Blazepod…"></textarea>
+    </div>
+
+    <div class="rating-actions">
+      <button class="btn-save-rating" onclick="saveRating()">💾 Enregistrer</button>
+      <button class="btn-skip-rating" onclick="showHome()">Passer sans noter</button>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORY -->
+<div id="history" class="screen">
+  <div style="padding:52px 20px 12px;flex-shrink:0">
+    <button onclick="showHome()" style="font-size:13px;color:#c084fc;background:none;border:none;padding:0;margin-bottom:12px;display:flex;align-items:center;gap:6px">← Accueil</button>
+    <h1 style="font-size:26px;font-weight:800">Historique</h1>
+    <div style="font-size:13px;color:#94a3b8;margin-top:4px" id="histSubtitle"></div>
+  </div>
+  <button class="hist-clear" id="histClearBtn" onclick="clearHistory()">🗑 Effacer l'historique</button>
+  <div class="hist-list" id="histList"></div>
 </div>
 
 <!-- CUSTOM CONFIG -->
@@ -299,6 +387,25 @@ button{cursor:pointer;font-family:inherit}
         <button class="chip" onclick="toggleZone(this,'full')">🏆 Full body</button>
       </div>
       <div style="font-size:11px;color:#94a3b8;margin-top:8px">Sélectionne une ou plusieurs zones</div>
+    </div>
+
+    <div class="custom-section">
+      <div class="custom-section-title">🎒 Matériel disponible</div>
+      <div style="font-size:11px;color:#94a3b8;margin-bottom:10px">Tout coché par défaut — décoche ce qui n'est pas disponible</div>
+      <div class="chip-grid" id="equipChips">
+        <button class="chip selected" onclick="toggleEquip(this,'tapis')">🏃 Tapis de course</button>
+        <button class="chip selected" onclick="toggleEquip(this,'halteres')">🏋️ Haltères</button>
+        <button class="chip selected" onclick="toggleEquip(this,'kettlebell')">⚫ Kettlebell</button>
+        <button class="chip selected" onclick="toggleEquip(this,'barre')">📊 Barre de squat</button>
+        <button class="chip selected" onclick="toggleEquip(this,'step')">📦 Step</button>
+        <button class="chip selected" onclick="toggleEquip(this,'trx')">🔗 TRX</button>
+        <button class="chip selected" onclick="toggleEquip(this,'swissball')">🔵 Swiss ball</button>
+        <button class="chip selected" onclick="toggleEquip(this,'trampoline')">⬜ Trampoline</button>
+        <button class="chip selected" onclick="toggleEquip(this,'blazepod')">💡 Blazepod</button>
+        <button class="chip selected" onclick="toggleEquip(this,'miniband')">🟣 Mini-bands</button>
+        <button class="chip selected" onclick="toggleEquip(this,'superband')">🔵 Super bands</button>
+        <button class="chip selected" onclick="toggleEquip(this,'espalier')">🪜 Espalier</button>
+      </div>
     </div>
 
     <div class="custom-section">
@@ -935,11 +1042,47 @@ const LIBRARY = {
   ],
 };
 
+// ── TAG EQUIPMENT KEYS ─────────────────────────
+// Maps keywords in equip[] to machine-readable keys used by customEquip filter
+const EQUIP_MAP = [
+  { key:'tapis',      words:['tapis'] },
+  { key:'halteres',   words:['haltère','haltères'] },
+  { key:'kettlebell', words:['kettlebell'] },
+  { key:'barre',      words:['barre'] },
+  { key:'step',       words:['step'] },
+  { key:'trx',        words:['trx'] },
+  { key:'swissball',  words:['swiss ball','swiss'] },
+  { key:'trampoline', words:['trampoline'] },
+  { key:'blazepod',   words:['blazepod'] },
+  { key:'miniband',   words:['mini-band','mini band'] },
+  { key:'superband',  words:['super band','superband'] },
+  { key:'espalier',   words:['espalier'] },
+];
+
+function getEquipKeys(equip){
+  if(!equip||equip.length===0) return [];
+  const joined = equip.join(' ').toLowerCase();
+  if(joined.includes('sans matériel')||joined.includes('sans materiel')) return ['none'];
+  return EQUIP_MAP.filter(m=>m.words.some(w=>joined.includes(w))).map(m=>m.key);
+}
+
+// Tag all exercises with equipKeys at startup
+Object.values(LIBRARY).forEach(arr=>arr.forEach(ex=>{
+  ex.equipKeys = getEquipKeys(ex.equip);
+}));
+
 // ── ÉTAT CONFIG ───────────────────────────────
 let customDuration = '1h';
 let customZones = new Set();
 let customIntensity = 'Modérée';
 let generatedSeance = null;
+// All equipment selected by default
+let customEquip = new Set(['tapis','halteres','kettlebell','barre','step','trx','swissball','trampoline','blazepod','miniband','superband','espalier']);
+
+function toggleEquip(btn, val){
+  if(customEquip.has(val)){ customEquip.delete(val); btn.classList.remove('selected'); }
+  else { customEquip.add(val); btn.classList.add('selected'); }
+}
 
 function showCustomConfig(){ showScreen('customConfig'); }
 
@@ -961,8 +1104,14 @@ function selectIntensity(btn, val){
 }
 
 // ── ASSEMBLAGE ────────────────────────────────
+function isEquipAvailable(ex){
+  if(!ex.equipKeys||ex.equipKeys.length===0) return true;
+  if(ex.equipKeys.includes('none')) return true;
+  return ex.equipKeys.every(k => customEquip.has(k));
+}
+
 function pick(arr, n, exclude=[]){
-  const pool = arr.filter(e => !exclude.includes(e.name));
+  const pool = arr.filter(e => !exclude.includes(e.name) && isEquipAvailable(e));
   const result = [];
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
   for(let i = 0; i < Math.min(n, shuffled.length); i++) result.push(shuffled[i]);
@@ -999,27 +1148,27 @@ function buildSeance(){
     warmupExs, null, 0));
 
   if(hasCardio){
-    const exs = pick(LIBRARY.cardio, exPerBloc, usedNames);
+    const exs = getAdjustedPick(LIBRARY.cardio, exPerBloc, usedNames);
     exs.forEach(e => usedNames.push(e.name));
     blocs.push(makeBloc('⚡ Cardio & Réactivité', `${tours} tours · 30-45s effort / 30s repos`, exs, tours, 30));
   }
   if(hasBas){
-    const exs = pick(LIBRARY.bas, exPerBloc, usedNames);
+    const exs = getAdjustedPick(LIBRARY.bas, exPerBloc, usedNames);
     exs.forEach(e => usedNames.push(e.name));
     blocs.push(makeBloc('🍑 Bas du corps', `${tours} séries · 12-15 reps · 60s récup`, exs, tours, 60));
   }
   if(hasHaut){
-    const exs = pick(LIBRARY.haut, exPerBloc, usedNames);
+    const exs = getAdjustedPick(LIBRARY.haut, exPerBloc, usedNames);
     exs.forEach(e => usedNames.push(e.name));
     blocs.push(makeBloc('💪 Haut du corps', `${tours} séries · 10-12 reps · 60s récup`, exs, tours, 60));
   }
   if(hasCore){
-    const exs = pick(LIBRARY.core, exPerBloc, usedNames);
+    const exs = getAdjustedPick(LIBRARY.core, exPerBloc, usedNames);
     exs.forEach(e => usedNames.push(e.name));
     blocs.push(makeBloc('🔥 Gainage & Core', `${tours} séries · 10-40s · 45s récup`, exs, tours, 45));
   }
   if(isFullBody && customDuration !== '45 min'){
-    const extra = pick(LIBRARY.bas, 3, usedNames);
+    const extra = getAdjustedPick(LIBRARY.bas, 3, usedNames);
     if(extra.length > 0){
       extra.forEach(e => usedNames.push(e.name));
       blocs.push(makeBloc('🏋️ Force complémentaire', `${tours} séries · 12 reps · 60s récup`, extra, tours, 60));
@@ -1095,6 +1244,141 @@ function launchCustom(){
   requestWakeLock();
 }
 
+
+// ══════════════════════════════════════════════
+// RATING & HISTORY
+// ══════════════════════════════════════════════
+const HISTORY_KEY = 'coach_sport_history';
+let ratingStars = 0;
+let ratingFeedback = new Set();
+let pendingRecord = null; // built in showDone, saved in saveRating
+
+function loadHistory(){
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY)||'[]'); }
+  catch(e){ return []; }
+}
+function saveHistory(hist){
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); } catch(e){}
+}
+
+// Called after workout ends — store session metadata for rating
+function showRating(){
+  ratingStars = 0;
+  ratingFeedback = new Set();
+  document.getElementById('ratingNote').value = '';
+  document.querySelectorAll('.star-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.feedback-chip').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('ratingSub').textContent = curSeance.title + ' · ' + Math.round((Date.now()-startTime)/60000) + ' min';
+  showScreen('rating');
+}
+
+function setStar(n){
+  ratingStars = n;
+  document.querySelectorAll('.star-btn').forEach((b,i)=>{
+    b.classList.toggle('active', i < n);
+  });
+}
+
+function toggleFeedback(btn, val){
+  if(ratingFeedback.has(val)){ ratingFeedback.delete(val); btn.classList.remove('selected'); }
+  else { ratingFeedback.add(val); btn.classList.add('selected'); }
+}
+
+function saveRating(){
+  const elapsed = Math.round((Date.now()-startTime)/60000);
+  const record = {
+    date: new Date().toISOString(),
+    title: curSeance.title,
+    subtitle: curSeance.subtitle || '',
+    duration: elapsed,
+    exercises: totalEx,
+    stars: ratingStars,
+    feedback: [...ratingFeedback],
+    note: document.getElementById('ratingNote').value.trim(),
+    zones: curSeance.tags || [],
+  };
+  const hist = loadHistory();
+  hist.unshift(record); // most recent first
+  if(hist.length > 50) hist.pop(); // cap at 50 entries
+  saveHistory(hist);
+  showHome();
+}
+
+// ── HISTORY SCREEN ────────────────────────────
+function showHistory(){
+  const hist = loadHistory();
+  document.getElementById('histSubtitle').textContent =
+    hist.length === 0 ? '' : `${hist.length} séance${hist.length>1?'s':''} enregistrée${hist.length>1?'s':''}`;
+  document.getElementById('histClearBtn').style.display = hist.length ? 'block' : 'none';
+
+  const list = document.getElementById('histList');
+  if(hist.length === 0){
+    list.innerHTML = '<div class="hist-empty">Aucune séance enregistrée.<br>Termine une séance et évalue-la pour la voir ici !</div>';
+    showScreen('history'); return;
+  }
+
+  const FEEDBACK_LABELS = {
+    'trop-longue':'⏱ Trop longue','trop-courte':'⏱ Trop courte',
+    'trop-difficile':'💪 Trop difficile','trop-facile':'😴 Trop facile',
+    'manque-variete':'🔄 Manque de variété','parfaite':'✅ Parfaite'
+  };
+
+  list.innerHTML = hist.map(r => {
+    const d = new Date(r.date);
+    const dateStr = d.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+    const stars = r.stars ? '⭐'.repeat(r.stars) + '☆'.repeat(5-r.stars) : '—';
+    const fb = r.feedback && r.feedback.length
+      ? r.feedback.map(f=>FEEDBACK_LABELS[f]||f).join(' · ')
+      : '';
+    const tags = (r.zones||[]).filter(t=>!t.includes('min')&&!t.includes('h15')).slice(0,3);
+    return `<div class="hist-card">
+      <div class="hist-card-top">
+        <div class="hist-card-title">${r.title}</div>
+        <div class="hist-card-date">${dateStr}</div>
+      </div>
+      <div class="hist-stars">${stars}</div>
+      ${tags.length?`<div class="hist-card-tags">${tags.map(t=>`<span class="hist-tag">${t}</span>`).join('')}</div>`:''}
+      <div style="font-size:11px;color:#94a3b8;margin-bottom:${fb||r.note?'4':'0'}px">⏱ ${r.duration} min · ${r.exercises} exercices</div>
+      ${fb?`<div class="hist-feedback">${fb}</div>`:''}
+      ${r.note?`<div class="hist-note">"${r.note}"</div>`:''}
+    </div>`;
+  }).join('');
+
+  showScreen('history');
+}
+
+function clearHistory(){
+  if(confirm('Effacer tout l\'historique ?')){
+    saveHistory([]);
+    showHistory();
+  }
+}
+
+// ── INFLUENCE SUR LES SÉANCES CUSTOM ─────────
+// Pondère les catégories en fonction du dernier feedback
+function getAdjustedPick(arr, n, exclude){
+  const hist = loadHistory();
+  if(!hist.length) return pick(arr, n, exclude);
+
+  // Look at last 3 sessions for feedback signals
+  const recent = hist.slice(0,3);
+  const tooHard  = recent.some(r=>r.feedback&&r.feedback.includes('trop-difficile'));
+  const tooEasy  = recent.some(r=>r.feedback&&r.feedback.includes('trop-facile'));
+
+  // Filter pool by equipment as usual
+  let pool = arr.filter(e=>!exclude.includes(e.name)&&isEquipAvailable(e));
+
+  // If recent sessions were too hard, slightly favour bodyweight/low-equip exercises
+  // If too easy, no specific filter (let random play)
+  // This is a soft nudge, not a hard filter
+  if(tooHard){
+    const lighter = pool.filter(e=>e.equipKeys&&(e.equipKeys.includes('none')||e.equipKeys.length<=1));
+    if(lighter.length >= n) pool = lighter;
+  }
+
+  const shuffled = [...pool].sort(()=>Math.random()-.5);
+  return shuffled.slice(0, Math.min(n, shuffled.length));
+}
 
 buildHome();
 </script>
