@@ -1372,8 +1372,11 @@ function isEquipAvailable(ex){
 }
 
 function pick(arr, n, exclude=[]){
-  const hidden = new Set(loadHiddenEx());
-  const pool = arr.filter(e => !exclude.includes(e.name) && isEquipAvailable(e) && !hidden.has(e.name));
+  const hidden    = new Set(loadHiddenEx());
+  const overrides = new Map(loadExOverrides().map(o=>[o.originalName, o]));
+  const pool = arr
+    .filter(e => !exclude.includes(e.name) && isEquipAvailable(e) && !hidden.has(e.name))
+    .map(e => overrides.has(e.name) ? {...overrides.get(e.name)} : e);
   return [...pool].sort(()=>Math.random()-.5).slice(0, Math.min(n, pool.length));
 }
 
@@ -1798,18 +1801,24 @@ if('serviceWorker' in navigator){
 // ══════════════════════════════════════════════
 // MES EXERCICES — CRUD
 // ══════════════════════════════════════════════
-const USER_EX_KEY  = 'coach_sport_user_exercises';
-const HIDDEN_EX_KEY = 'coach_sport_hidden_ex';
+const USER_EX_KEY      = 'coach_sport_user_exercises';
+const EX_OVERRIDES_KEY = 'coach_sport_ex_overrides';
+const HIDDEN_EX_KEY    = 'coach_sport_hidden_ex';
 
 function loadUserExercises(){ try{ return JSON.parse(localStorage.getItem(USER_EX_KEY)||'[]'); }catch(e){ return []; } }
 function saveUserExercises(list){ try{ localStorage.setItem(USER_EX_KEY, JSON.stringify(list)); }catch(e){} }
+function loadExOverrides(){ try{ return JSON.parse(localStorage.getItem(EX_OVERRIDES_KEY)||'[]'); }catch(e){ return []; } }
+function saveExOverrides(list){ try{ localStorage.setItem(EX_OVERRIDES_KEY, JSON.stringify(list)); }catch(e){} }
 function loadHiddenEx(){ try{ return JSON.parse(localStorage.getItem(HIDDEN_EX_KEY)||'[]'); }catch(e){ return []; } }
 function saveHiddenEx(list){ try{ localStorage.setItem(HIDDEN_EX_KEY, JSON.stringify(list)); }catch(e){} }
 
-// Filtre les exercices masqués + ajoute les exercices utilisateur
+// Overrides + masqués + exercices utilisateur
 function enrichedCategory(key){
-  const hidden = new Set(loadHiddenEx());
-  const base = (LIBRARY[key]||[]).filter(ex => !hidden.has(ex.name));
+  const hidden    = new Set(loadHiddenEx());
+  const overrides = new Map(loadExOverrides().map(o=>[o.originalName, o]));
+  const base = (LIBRARY[key]||[])
+    .filter(ex => !hidden.has(ex.name))
+    .map(ex => overrides.has(ex.name) ? {...overrides.get(ex.name)} : ex);
   const userExs = loadUserExercises()
     .filter(ex => (ex.zones||[]).includes(key) && !hidden.has(ex.name))
     .map(ex => ({ ...ex, equipKeys: ex.equipKeys || getEquipKeys(ex.equip||[]) }));
@@ -1824,10 +1833,14 @@ function hideBuiltinExercise(name){
 }
 function restoreExercise(name){
   saveHiddenEx(loadHiddenEx().filter(n=>n!==name));
+  saveExOverrides(loadExOverrides().filter(o=>o.originalName!==name));
   showMyExercises();
 }
 
-let editingExId = null;
+let editingExId            = null;
+let editingIsBuiltin       = false;
+let editingBuiltinCat      = null;
+let editingBuiltinOrigName = null;
 let editorZones = new Set();
 let editorEquip = new Set();
 let editorType  = 'reps';
@@ -1843,11 +1856,13 @@ const ZONE_LABELS_MAP = { bas:'Bas du corps', haut:'Haut du corps', cardio:'Card
 let libCatFilter = 'bas';
 
 function showMyExercises(){
-  const userList = loadUserExercises();
-  const hidden   = new Set(loadHiddenEx());
+  const userList  = loadUserExercises();
+  const hidden    = new Set(loadHiddenEx());
+  const overrides = new Map(loadExOverrides().map(o=>[o.originalName, o]));
   const sub = [
-    userList.length ? `${userList.length} perso` : '',
-    hidden.size ? `${hidden.size} masqué${hidden.size>1?'s':''}` : '',
+    userList.length  ? `${userList.length} perso`                                  : '',
+    overrides.size   ? `${overrides.size} modifié${overrides.size>1?'s':''}`       : '',
+    hidden.size      ? `${hidden.size} masqué${hidden.size>1?'s':''}`              : '',
   ].filter(Boolean).join(' · ');
   document.getElementById('myExSubtitle').textContent = sub || 'Crée et personnalise tes exercices';
 
@@ -1903,34 +1918,34 @@ function showMyExercises(){
     });
   el.appendChild(catDiv);
 
-  // Encart info
-  const info = document.createElement('div');
-  info.className = 'bloc-info-pill';
-  info.style.margin = '0 0 12px';
-  info.textContent = '💡 Pour modifier un exercice existant, décris le changement dans le chat — il sera intégré dans le code source.';
-  el.appendChild(info);
-
   (LIBRARY[libCatFilter]||[]).forEach(ex => {
-    const isHidden = hidden.has(ex.name);
+    const isHidden  = hidden.has(ex.name);
+    const override  = overrides.get(ex.name);
+    const disp      = override || ex;
     const card = document.createElement('div');
     card.className = 'my-ex-card'+(isHidden?' my-ex-card-hidden':'');
     card.innerHTML = `
       <div class="my-ex-card-head">
         <div style="min-width:0;flex:1">
-          <div class="my-ex-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(ex.name)}</div>
-          <div class="my-ex-meta">${esc(ex.reps)}</div>
+          <div class="my-ex-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            ${esc(disp.name)}${override?'<span class="modified-badge">modifié</span>':''}
+          </div>
+          <div class="my-ex-meta">${esc(disp.reps)}</div>
         </div>
         <div class="my-ex-actions">
           ${isHidden
-            ? `<button class="btn-restore-ex">↩ Afficher</button>`
-            : `<button class="btn-hide-ex" title="Exclure des séances générées">🚫</button>`}
+            ? `<button class="btn-restore-ex">↩ Restaurer</button>`
+            : `<button class="btn-edit-ex">✏️</button><button class="btn-hide-ex">🚫</button>`}
         </div>
       </div>
-      ${ex.muscles?`<div class="my-ex-muscles">${esc(ex.muscles)}</div>`:''}`;
+      ${disp.muscles?`<div class="my-ex-muscles">${esc(disp.muscles)}</div>`:''}`;
     if(isHidden){
       card.querySelector('.btn-restore-ex').addEventListener('click', ()=>restoreExercise(ex.name));
     } else {
-      card.querySelector('.btn-hide-ex').addEventListener('click', ()=>hideBuiltinExercise(ex.name));
+      card.querySelector('.btn-edit-ex').addEventListener('click',
+        ()=>openExerciseEditor(disp, true, libCatFilter));
+      card.querySelector('.btn-hide-ex').addEventListener('click',
+        ()=>hideBuiltinExercise(ex.name));
     }
     el.appendChild(card);
   });
@@ -1938,9 +1953,15 @@ function showMyExercises(){
   showScreen('myExercises');
 }
 
-function openExerciseEditor(ex=null){
-  editingExId = ex ? ex.id : null;
-  editorZones = new Set(ex ? (ex.zones||[]) : []);
+function openExerciseEditor(ex=null, isBuiltin=false, builtinCat=null){
+  editingExId            = ex && !isBuiltin ? ex.id : null;
+  editingIsBuiltin       = isBuiltin;
+  editingBuiltinCat      = builtinCat;
+  editingBuiltinOrigName = isBuiltin ? ex.name : null;
+  editorZones = new Set(
+    ex && ex.zones ? ex.zones :
+    builtinCat ? [builtinCat] : []
+  );
   editorEquip = new Set(ex ? (ex.equipKeys||[]) : []);
   editorType  = ex && ex.isTimer ? 'timer' : 'reps';
 
@@ -1997,9 +2018,15 @@ function saveExercise(){
     isUserCreated: true,
   };
 
-  const list = loadUserExercises().filter(e=>e.id!==ex.id);
-  list.push(ex);
-  saveUserExercises(list);
+  if(editingIsBuiltin){
+    const overrides = loadExOverrides().filter(o=>o.originalName!==editingBuiltinOrigName);
+    overrides.push({ ...ex, originalName: editingBuiltinOrigName });
+    saveExOverrides(overrides);
+  } else {
+    const list = loadUserExercises().filter(e=>e.id!==ex.id);
+    list.push(ex);
+    saveUserExercises(list);
+  }
   showMyExercises();
 }
 
